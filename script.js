@@ -53,32 +53,27 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// فتح مشغل الفيديو السينمائي وتجهيز زر VidMate
+// فتح مشغل الفيديو وتجهيز أزرار التحميل المباشر لـ VidMate
 function openPlayer(movie) {
     modalTitle.textContent = movie.title;
     youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
     
     const youtubeUrl = `https://www.youtube.com/watch?v=${movie.id}`;
-    downloadLink.href = youtubeUrl;
-    downloadLink.textContent = "📥 نسخ الرابط للتحميل عبر VidMate";
     
-    // عند الضغط: ينسخ الرابط فوراً ويحاول فتح تطبيق VidMate مباشرة
+    // تعديل شكل الزر داخل القائمة لتوضيح الفكرة تماماً
+    downloadLink.href = "#";
+    downloadLink.innerHTML = "📋 انسخ رابط الفيلم للـ VidMate";
+    
+    // عند الضغط على زر النسخ
     downloadLink.onclick = (e) => {
         e.preventDefault();
         navigator.clipboard.writeText(youtubeUrl).then(() => {
-            downloadLink.textContent = "✅ تم نسخ الرابط! افتح VidMate للتحميل";
+            downloadLink.innerHTML = "✅ تم النسخ! افتح VidMate للتحميل";
             
-            // محاولة فتح VidMate مباشرة على الموبايل (Android Intent)
-            const isMobile = /Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                window.location.href = `intent://www.youtube.com/watch?v=${movie.id}#Intent;scheme=https;package=com.nemo.vidmate;end`;
-            } else {
-                alert("تم نسخ رابط الفيلم بنجاح!\nافتح برنامج VidMate أو محاكي الأندرويد والصق الرابط للتحميل بأعلى جودة.");
-            }
-
+            // رسالة إرشادية سريعة للمستخدم
             setTimeout(() => {
-                downloadLink.textContent = "📥 نسخ الرابط للتحميل عبر VidMate";
-            }, 3000);
+                downloadLink.innerHTML = "📋 انسخ رابط الفيلم للـ VidMate";
+            }, 3500);
         });
     };
     

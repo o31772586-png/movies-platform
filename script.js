@@ -1,4 +1,4 @@
-// قائمة الأفلام المتاحة على المنصة (مربوطة بفيديو يوتيوب الخاص بك)
+// قائمة الأفلام المتاحة على المنصة (مربوطة بفيديو يوتيوب للتحميل والمشاهدة)
 const movies = [
     {
         id: "fSkgNXNiHIE", // معرف الفيديو الخاص بك على يوتيوب
@@ -53,13 +53,13 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// فتح مشغل الفيديو السينمائي وتحديث نص وزر التحميل
+// فتح مشغل الفيديو السينمائي وتحديث رابط التحميل المباشر
 function openPlayer(movie) {
     modalTitle.textContent = movie.title;
     youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
     
-    // تحديث رابط وزر التحميل ليصبح واضح وصريح للزائر
-    downloadLink.href = `https://www.youtube.com/watch?v=${movie.id}`;
+    // توجيه زر التحميل إلى أداة تنزيل فيديو يوتيوب مباشرة بأعلى جودة
+    downloadLink.href = `https://www.ssyoutube.com/watch?v=${movie.id}`;
     downloadLink.textContent = "📥 تحميل الفيلم بجودة عالية";
     
     videoModal.style.display = 'flex';

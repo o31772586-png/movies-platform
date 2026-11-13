@@ -1,7 +1,6 @@
-// قائمة الأفلام المتاحة على المنصة
 const movies = [
     {
-        id: "fSkgNXNiHIE", // معرف الفيديو الخاص بك على يوتيوب
+        id: "fSkgNXNiHIE",
         title: "الفيلم الحصري | Godfather VIP",
         category: "action",
         badge: "حصري VIP",
@@ -25,7 +24,6 @@ const dotsDropdown = document.getElementById('dotsDropdown');
 
 let isEnhanced = true;
 
-// عرض الأفلام في الشبكة
 function displayMovies(moviesToDisplay) {
     moviesGrid.innerHTML = '';
     if (moviesToDisplay.length === 0) {
@@ -53,24 +51,19 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// فتح مشغل الفيديو وتجهيز أزرار التحميل المباشر لـ VidMate
 function openPlayer(movie) {
     modalTitle.textContent = movie.title;
     youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
     
     const youtubeUrl = `https://www.youtube.com/watch?v=${movie.id}`;
     
-    // تعديل شكل الزر داخل القائمة لتوضيح الفكرة تماماً
     downloadLink.href = "#";
     downloadLink.innerHTML = "📋 انسخ رابط الفيلم للـ VidMate";
     
-    // عند الضغط على زر النسخ
     downloadLink.onclick = (e) => {
         e.preventDefault();
         navigator.clipboard.writeText(youtubeUrl).then(() => {
             downloadLink.innerHTML = "✅ تم النسخ! افتح VidMate للتحميل";
-            
-            // رسالة إرشادية سريعة للمستخدم
             setTimeout(() => {
                 downloadLink.innerHTML = "📋 انسخ رابط الفيلم للـ VidMate";
             }, 3500);
@@ -80,7 +73,6 @@ function openPlayer(movie) {
     videoModal.style.display = 'flex';
 }
 
-// إغلاق المشغل وإيقاف الفيديو
 function closePlayer() {
     youtubePlayer.src = '';
     videoModal.style.display = 'none';
@@ -93,14 +85,12 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// بحث الأفلام
 searchInput.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
     const filtered = movies.filter(m => m.title.toLowerCase().includes(term));
     displayMovies(filtered);
 });
 
-// فلاتر التصنيفات
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
@@ -114,7 +104,6 @@ filterBtns.forEach(btn => {
     });
 });
 
-// القائمة المنسدلة للخيارات
 dotsBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     dotsDropdown.style.display = dotsDropdown.style.display === 'block' ? 'none' : 'block';
@@ -129,5 +118,4 @@ enhanceBtn.addEventListener('click', () => {
     enhanceStatus.textContent = isEnhanced ? 'مفعل' : 'معطل';
 });
 
-// العرض الأولي
 displayMovies(movies);

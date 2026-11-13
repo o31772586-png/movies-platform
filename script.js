@@ -53,11 +53,15 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// فتح مشغل الفيديو السينمائي
+// فتح مشغل الفيديو السينمائي وتحديث نص وزر التحميل
 function openPlayer(movie) {
     modalTitle.textContent = movie.title;
     youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
+    
+    // تحديث رابط وزر التحميل ليصبح واضح وصريح للزائر
     downloadLink.href = `https://www.youtube.com/watch?v=${movie.id}`;
+    downloadLink.textContent = "📥 تحميل الفيلم بجودة عالية";
+    
     videoModal.style.display = 'flex';
 }
 

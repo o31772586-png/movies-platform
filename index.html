@@ -11,6 +11,15 @@
     <!-- شريط التنقل العلوي -->
     <header class="navbar">
         <div class="logo">🎬 سينما VIP</div>
+        
+        <!-- زر تحميل VidMate في الواجهة الرئيسية (للتحميل أولاً) -->
+        <div class="vidmate-promo">
+            <a href="https://www.vidmateapp.com/" target="_blank" class="vidmate-download-btn">
+                <span class="vidmate-icon">📥</span>
+                <span>حمّل تطبيق <strong>VidMate</strong> أولاً</span>
+            </a>
+        </div>
+
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="ابحث عن فيلمك المفضلة...">
         </div>
@@ -38,11 +47,16 @@
                 <div class="modal-actions">
                     <!-- زر الخيارات القائمة المنسدلة -->
                     <div class="dropdown-container">
-                        <button id="dotsBtn" class="options-btn">⚙️ خيارات</button>
+                        <button id="dotsBtn" class="options-btn">⚙️ خيارات التحميل</button>
                         <div id="dotsDropdown" class="dropdown-menu" style="display: none;">
-                            <a href="#" id="downloadLink">📋 انسخ رابط الفيلم للـ VidMate</a>
-                            <a href="https://www.vidmateapp.com/" target="_blank">📥 تحميل تطبيق VidMate</a>
-                            <button id="enhanceBtn">تحسين الصورة: <span id="enhanceStatus">مفعل</span></button>
+                            <!-- صندوق توضيحي لشرح VidMate وزر النسخ -->
+                            <div class="vidmate-info-box">
+                                <p class="info-title">💡 ما هو VidMate؟</p>
+                                <p class="info-desc">أفضل تطبيق لتحميل الفيديوهات بجودات عالية. انسخ رابط الفيلم أدناه والصقه داخل التطبيق للتحميل الفوري.</p>
+                            </div>
+                            <a href="#" id="downloadLink" class="copy-link-btn">📋 انسخ رابط الفيلم</a>
+                            <a href="https://www.vidmateapp.com/" target="_blank" class="external-vidmate-btn">📥 تحميل تطبيق VidMate</a>
+                            <button id="enhanceBtn" class="enhance-action-btn">تحسين الصورة: <span id="enhanceStatus">مفعل</span></button>
                         </div>
                     </div>
                     <button id="closeModal" class="close-btn">&times;</button>

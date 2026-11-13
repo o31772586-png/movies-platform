@@ -1,11 +1,11 @@
-// قائمة الأفلام المتاحة على المنصة (مربوطة بفيديو يوتيوب للتحميل والمشاهدة)
+// قائمة الأفلام المتاحة على المنصة
 const movies = [
     {
         id: "fSkgNXNiHIE", // معرف الفيديو الخاص بك على يوتيوب
         title: "الفيلم الحصري | Godfather VIP",
         category: "action",
         badge: "حصري VIP",
-        image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600", // صورة الغلاف للكارت
+        image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600",
         year: "2026"
     }
 ];
@@ -53,14 +53,34 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// فتح مشغل الفيديو السينمائي وتحديث رابط التحميل المباشر
+// فتح مشغل الفيديو السينمائي وتجهيز زر VidMate
 function openPlayer(movie) {
     modalTitle.textContent = movie.title;
     youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
     
-    // توجيه زر التحميل إلى أداة تنزيل فيديو يوتيوب مباشرة بأعلى جودة
-    downloadLink.href = `https://www.ssyoutube.com/watch?v=${movie.id}`;
-    downloadLink.textContent = "📥 تحميل الفيلم بجودة عالية";
+    const youtubeUrl = `https://www.youtube.com/watch?v=${movie.id}`;
+    downloadLink.href = youtubeUrl;
+    downloadLink.textContent = "📥 نسخ الرابط للتحميل عبر VidMate";
+    
+    // عند الضغط: ينسخ الرابط فوراً ويحاول فتح تطبيق VidMate مباشرة
+    downloadLink.onclick = (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(youtubeUrl).then(() => {
+            downloadLink.textContent = "✅ تم نسخ الرابط! افتح VidMate للتحميل";
+            
+            // محاولة فتح VidMate مباشرة على الموبايل (Android Intent)
+            const isMobile = /Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                window.location.href = `intent://www.youtube.com/watch?v=${movie.id}#Intent;scheme=https;package=com.nemo.vidmate;end`;
+            } else {
+                alert("تم نسخ رابط الفيلم بنجاح!\nافتح برنامج VidMate أو محاكي الأندرويد والصق الرابط للتحميل بأعلى جودة.");
+            }
+
+            setTimeout(() => {
+                downloadLink.textContent = "📥 نسخ الرابط للتحميل عبر VidMate";
+            }, 3000);
+        });
+    };
     
     videoModal.style.display = 'flex';
 }

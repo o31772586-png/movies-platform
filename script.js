@@ -1,122 +1,114 @@
-const moviesData = [
+// قائمة الأفلام المتاحة على المنصة (مربوطة بفيديو يوتيوب الخاص بك)
+const movies = [
     {
-        title: "الاب الروحي",
-        mainCat: "foreign",
-        subCat: "action",
-        subCatAr: "أجنبي - أكشن",
-        poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500",
-        youtubeId: "jNQXAC9IVRw" 
-    },
-    {
-        title: "رسالة حب",
-        mainCat: "foreign",
-        subCat: "romance",
-        subCatAr: "أجنبي - رومانسي",
-        poster: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=500",
-        youtubeId: "jNQXAC9IVRw"
-    },
-    {
-        title: "الطريق الطويل",
-        mainCat: "foreign",
-        subCat: "drama",
-        subCatAr: "أجنبي - دراما",
-        poster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500",
-        youtubeId: "jNQXAC9IVRw"
-    },
-    {
-        title: "الفيل الأزرق",
-        mainCat: "arabic",
-        subCat: "arabic",
-        subCatAr: "فيلم عربي",
-        poster: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=500",
-        youtubeId: "jNQXAC9IVRw"
+        id: "fSkgNXNiHIE", // معرف الفيديو الخاص بك على يوتيوب
+        title: "الفيلم الحصري | Godfather VIP",
+        category: "action",
+        badge: "حصري VIP",
+        image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600", // صورة الغلاف للكارت
+        year: "2026"
     }
 ];
 
 const moviesGrid = document.getElementById('moviesGrid');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const searchInput = document.getElementById('searchInput');
-
 const videoModal = document.getElementById('videoModal');
 const youtubePlayer = document.getElementById('youtubePlayer');
 const modalTitle = document.getElementById('modalTitle');
-const downloadLink = document.getElementById('downloadLink');
 const closeModal = document.getElementById('closeModal');
-
-const dotsBtn = document.getElementById('dotsBtn');
-const dotsDropdown = document.getElementById('dotsDropdown');
+const searchInput = document.getElementById('searchInput');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const downloadLink = document.getElementById('downloadLink');
 const enhanceBtn = document.getElementById('enhanceBtn');
 const enhanceStatus = document.getElementById('enhanceStatus');
+const dotsBtn = document.getElementById('dotsBtn');
+const dotsDropdown = document.getElementById('dotsDropdown');
 
-function displayMovies(movies) {
+let isEnhanced = true;
+
+// عرض الأفلام في الشبكة
+function displayMovies(moviesToDisplay) {
     moviesGrid.innerHTML = '';
-    movies.forEach(movie => {
+    if (moviesToDisplay.length === 0) {
+        moviesGrid.innerHTML = '<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 40px;">لا توجد أفلام مطابقة للبحث...</p>';
+        return;
+    }
+
+    moviesToDisplay.forEach(movie => {
         const card = document.createElement('div');
         card.className = 'movie-card';
         card.innerHTML = `
-            <span class="badge">HD 1080p</span>
-            <img src="${movie.poster}" alt="${movie.title}">
+            <span class="badge">${movie.badge}</span>
+            <img src="${movie.image}" alt="${movie.title}">
             <div class="movie-info">
                 <h3>${movie.title}</h3>
-                <span>${movie.subCatAr}</span>
+                <span>إصدار ${movie.year}</span>
             </div>
         `;
-        card.onclick = () => openMovie(movie);
+        
+        card.addEventListener('click', () => {
+            openPlayer(movie);
+        });
+        
         moviesGrid.appendChild(card);
     });
 }
 
-function openMovie(movie) {
+// فتح مشغل الفيديو السينمائي
+function openPlayer(movie) {
     modalTitle.textContent = movie.title;
-    youtubePlayer.src = `https://www.youtube.com/embed/${movie.youtubeId}?autoplay=1`;
-    downloadLink.href = `https://youtu.be/${movie.youtubeId}`;
-    
+    youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
+    downloadLink.href = `https://www.youtube.com/watch?v=${movie.id}`;
     videoModal.style.display = 'flex';
 }
 
-closeModal.onclick = () => {
-    youtubePlayer.src = ''; 
+// إغلاق المشغل وإيقاف الفيديو
+function closePlayer() {
+    youtubePlayer.src = '';
     videoModal.style.display = 'none';
-    dotsDropdown.style.display = 'none';
-};
+}
 
-dotsBtn.onclick = (e) => {
-    e.stopPropagation();
-    dotsDropdown.style.display = dotsDropdown.style.display === 'block' ? 'none' : 'block';
-};
-
-window.onclick = () => {
-    dotsDropdown.style.display = 'none';
-};
-
-let isEnhanced = true;
-enhanceBtn.onclick = () => {
-    isEnhanced = !isEnhanced;
-    enhanceStatus.textContent = isEnhanced ? 'مفعل' : 'متوقف';
-};
-
-filterBtns.forEach(btn => {
-    btn.onclick = () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        const category = btn.dataset.category;
-        if (category === 'all') {
-            displayMovies(moviesData);
-        } else if (category === 'arabic') {
-            displayMovies(moviesData.filter(m => m.mainCat === 'arabic'));
-        } else if (category === 'foreign-all') {
-            displayMovies(moviesData.filter(m => m.mainCat === 'foreign'));
-        } else {
-            displayMovies(moviesData.filter(m => m.subCat === category));
-        }
-    };
+closeModal.addEventListener('click', closePlayer);
+window.addEventListener('click', (e) => {
+    if (e.target === videoModal) {
+        closePlayer();
+    }
 });
 
-searchInput.oninput = (e) => {
+// بحث الأفلام
+searchInput.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
-    const filtered = moviesData.filter(m => m.title.toLowerCase().includes(term));
+    const filtered = movies.filter(m => m.title.toLowerCase().includes(term));
     displayMovies(filtered);
-};
+});
 
-displayMovies(moviesData);
+// فلاتر التصنيفات
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.getAttribute('data-category');
+        if (cat === 'all' || cat === 'action') {
+            displayMovies(movies);
+        } else {
+            displayMovies([]); 
+        }
+    });
+});
+
+// القائمة المنسدلة للخيارات
+dotsBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dotsDropdown.style.display = dotsDropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+window.addEventListener('click', () => {
+    dotsDropdown.style.display = 'none';
+});
+
+enhanceBtn.addEventListener('click', () => {
+    isEnhanced = !isEnhanced;
+    enhanceStatus.textContent = isEnhanced ? 'مفعل' : 'معطل';
+});
+
+// العرض الأولي
+displayMovies(movies);

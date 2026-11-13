@@ -4,66 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الأفلام | سينما VIP</title>
-    <!-- خط القاهرة الفخم للغة العربية -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- شريط علوي زجاجي شفاف -->
-    <header class="glass-header">
-        <div class="logo">
-            <span class="logo-icon">▶</span>
-            <h1>سينما <span class="highlight">VIP</span></h1>
-        </div>
+
+    <!-- شريط التنقل العلوي -->
+    <header class="navbar">
+        <div class="logo">🎬 سينما VIP</div>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ابحث عن فيلمك المفضل...">
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلمك المفضلة...">
         </div>
     </header>
 
-    <!-- بانر ترحيبي فخم (Hero Section) -->
-    <section class="hero-banner">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="vip-tag">🔥 حصرياً بأعلى جودة</span>
-            <h2>تجربة السينما الحقيقية في بيتك</h2>
-            <p>استمتع بمشاهدة أضخم الأفلام العربية والأجنبية بجودة فائقة وبدون إعلانات.</p>
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- فلاتر التصنيفات -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-category="all">الكل</button>
+            <button class="filter-btn" data-category="action">أكشن وحصري</button>
         </div>
-    </section>
 
-    <!-- أزرار التصنيفات العصرية -->
-    <nav class="filters">
-        <button class="filter-btn active" data-category="all">الكل</button>
-        <button class="filter-btn" data-category="arabic">عربي</button>
-        <button class="filter-btn" data-category="foreign-all">أجنبي</button>
-        <button class="filter-btn" data-category="action">أكشن</button>
-        <button class="filter-btn" data-category="romance">رومانسي</button>
-        <button class="filter-btn" data-category="drama">دراما</button>
-    </nav>
-
-    <!-- شبكة عرض الأفلام -->
-    <main>
-        <div class="movies-grid" id="moviesGrid"></div>
+        <!-- شبكة عرض الأفلام -->
+        <div class="movies-grid" id="moviesGrid">
+            <!-- سيتم تعبئة الأفلام تلقائياً عبر JavaScript -->
+        </div>
     </main>
 
-    <!-- نافذة عرض الفيلم (Modal) -->
-    <div id="videoModal" class="modal" style="display:none;">
+    <!-- نافذة العرض (Modal) -->
+    <div class="video-modal" id="videoModal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">عنوان الفيلم</h2>
+                <span id="modalTitle">عنوان الفيلم</span>
                 <div class="modal-actions">
-                    <div class="player-menu-container">
-                        <button id="dotsBtn" class="icon-btn">⋮ خيارات</button>
-                        <div id="dotsDropdown" class="dropdown-content">
-                            <a id="downloadLink" href="#" target="_blank">مشاهدة على يوتيوب ↗</a>
+                    <!-- زر الخيارات القائمة المنسدلة -->
+                    <div class="dropdown-container">
+                        <button id="dotsBtn" class="options-btn">⚙️ خيارات</button>
+                        <div id="dotsDropdown" class="dropdown-menu" style="display: none;">
+                            <a href="#" id="downloadLink">📋 انسخ رابط الفيلم للـ VidMate</a>
+                            <a href="https://www.vidmateapp.com/" target="_blank">📥 تحميل تطبيق VidMate</a>
                             <button id="enhanceBtn">تحسين الصورة: <span id="enhanceStatus">مفعل</span></button>
                         </div>
                     </div>
-                    <span id="closeModal" class="close">&times;</span>
+                    <button id="closeModal" class="close-btn">&times;</button>
                 </div>
             </div>
-
-            <div class="video-wrapper">
-                <iframe id="youtubePlayer" src="" allowfullscreen></iframe>
+            <div class="player-container">
+                <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </div>

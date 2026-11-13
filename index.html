@@ -3,27 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الأفلام | سينما VIP</title>
+    <title>وَحْش سينما | WAHSH CINEMA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- شريط التنقل العلوي -->
     <header class="navbar">
-        <div class="logo">🎬 سينما VIP</div>
+        <div class="logo">
+            🎬 وَحْش <span class="logo-sub">CINEMA</span>
+        </div>
         
-        <!-- زر تحميل VidMate في الواجهة الرئيسية (للتحميل أولاً) -->
+        <!-- زر تحميل VidMate في الشريط العلوي -->
         <div class="vidmate-promo">
             <a href="https://www.vidmateapp.com/" target="_blank" class="vidmate-download-btn">
                 <span class="vidmate-icon">📥</span>
-                <span>حمّل تطبيق <strong>VidMate</strong> أولاً</span>
+                <span>حمّل تطبيق <strong>VidMate</strong></span>
             </a>
         </div>
 
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ابحث عن فيلمك المفضلة...">
+            <input type="text" id="searchInput" placeholder="ابحث في الأفلام...">
         </div>
     </header>
+
+    <!-- بانر عرض سينمائي فخم (Netflix Style Hero Banner) -->
+    <section class="hero-banner">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-badge">الأكثر مشاهدة VIP</span>
+            <h1>Godfather VIP</h1>
+            <p>استمتع بأقوى الأفلام الحصرية بجودة سينمائية فائقة. حمل التطبيق وتابع بكل حرية وبأعلى جودة ممكنة.</p>
+        </div>
+    </section>
 
     <!-- المحتوى الرئيسي -->
     <main class="main-content">
@@ -49,10 +61,9 @@
                     <div class="dropdown-container">
                         <button id="dotsBtn" class="options-btn">⚙️ خيارات التحميل</button>
                         <div id="dotsDropdown" class="dropdown-menu" style="display: none;">
-                            <!-- صندوق توضيحي لشرح VidMate وزر النسخ -->
                             <div class="vidmate-info-box">
-                                <p class="info-title">💡 ما هو VidMate؟</p>
-                                <p class="info-desc">أفضل تطبيق لتحميل الفيديوهات بجودات عالية. انسخ رابط الفيلم أدناه والصقه داخل التطبيق للتحميل الفوري.</p>
+                                <p class="info-title">💡 تحميل عبر VidMate</p>
+                                <p class="info-desc">انسخ الرابط والصقه داخل تطبيق VidMate لتحميل الفيلم بأعلى جودة.</p>
                             </div>
                             <a href="#" id="downloadLink" class="copy-link-btn">📋 انسخ رابط الفيلم</a>
                             <a href="https://www.vidmateapp.com/" target="_blank" class="external-vidmate-btn">📥 تحميل تطبيق VidMate</a>

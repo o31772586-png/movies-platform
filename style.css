@@ -42,30 +42,6 @@ body {
     text-shadow: 0 0 12px var(--accent-glow);
 }
 
-.logo-sub {
-    color: white;
-    font-weight: 300;
-}
-
-.vidmate-download-btn {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.vidmate-download-btn:hover {
-    transform: scale(1.05);
-}
-
 .search-box input {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -83,9 +59,60 @@ body {
     width: 280px;
 }
 
-/* المحتوى الرئيسي */
+/* بانر العرض الرئيسي (Hero Banner) */
+.hero-banner {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    background: url('banner.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, var(--bg-main) 10%, rgba(7,9,14,0.6) 60%, rgba(7,9,14,0.3) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+}
+
+.hero-badge {
+    background: var(--accent);
+    color: white;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.hero-content h1 {
+    font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 14px;
+    color: #d1d5db;
+}
+
+/* المحتوى الرئيسي والفلاتر */
 .main-content {
-    padding: 30px 40px;
+    padding: 0 40px 40px 40px;
 }
 
 .filter-bar {
@@ -157,7 +184,6 @@ body {
     font-size: 11px;
     font-weight: bold;
     border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .movie-info {
@@ -175,7 +201,7 @@ body {
     color: var(--text-muted);
 }
 
-/* نافذة العرض العامة (Modal) */
+/* النوافذ المنبثقة (Modals) وإعدادات العرض */
 .video-modal {
     position: fixed;
     top: 0;
@@ -215,13 +241,63 @@ body {
     color: #fff;
 }
 
+.modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dropdown-container {
+    position: relative;
+}
+
+.options-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    top: 40px;
+    background: #161b24;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    width: 220px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    padding: 8px;
+    z-index: 101;
+}
+
+.setting-option-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    color: var(--text-main);
+    text-align: right;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.setting-option-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
 .close-btn {
     background: none;
     border: none;
     color: var(--text-muted);
     font-size: 24px;
     cursor: pointer;
-    transition: color 0.2s;
 }
 
 .close-btn:hover {
@@ -243,7 +319,6 @@ body {
     height: 100%;
 }
 
-/* تنسيق المواسم والحلقات */
 .series-modal-content {
     background: #141414;
     max-width: 750px;
@@ -270,7 +345,6 @@ body {
 .season-card:hover {
     background: var(--accent);
     border-color: var(--accent);
-    transform: translateY(-3px);
 }
 
 .episodes-list {
@@ -279,7 +353,6 @@ body {
     gap: 12px;
     max-height: 380px;
     overflow-y: auto;
-    padding: 5px;
 }
 
 .episode-btn {
@@ -288,7 +361,6 @@ body {
     border: none;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.2s;
     text-align: center;
 }
 
@@ -297,16 +369,10 @@ body {
     color: #fff;
 }
 
-.episode-btn.available:hover {
-    background: #b20710;
-    transform: scale(1.03);
-}
-
 .episode-btn.locked {
     background: #222;
     color: #666;
     cursor: not-allowed;
-    border: 1px solid #333;
 }
 
 .back-btn {
@@ -317,9 +383,4 @@ body {
     border-radius: 6px;
     cursor: pointer;
     margin-bottom: 15px;
-    transition: 0.2s;
-}
-
-.back-btn:hover {
-    background: #555;
 }

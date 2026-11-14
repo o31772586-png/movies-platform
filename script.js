@@ -5,7 +5,7 @@ const movies = [
         title: "الفيلم الحصري | Godfather VIP",
         category: "action",
         badge: "حصري VIP",
-        image: "image: "godfather.jpg",
+        image: "godfather.jpg",
         year: "1974"
     }
 ];

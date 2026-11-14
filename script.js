@@ -33,7 +33,9 @@ const movies = [
                 episodes: [
                     { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
                   { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
+                    { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },
                { ep: 7, title: "الحلقة 7", link: "vpG_WifRebE" }
+                    
                      ]
             },
             {

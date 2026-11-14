@@ -60,7 +60,6 @@ const movies = [
 // عناصر DOM
 const moviesGrid = document.getElementById('moviesGrid');
 const videoModal = document.getElementById('videoModal');
-const youtubePlayer = document.getElementById('youtubePlayer');
 const modalTitle = document.getElementById('modalTitle');
 const closeModal = document.getElementById('closeModal');
 
@@ -85,7 +84,7 @@ function displayMovies(items) {
                 <img src="${movie.image}" alt="${movie.title}">
                 <span class="badge">${movie.badge}</span>
             </div>
-            <div class="card-info">
+            <div class="movie-info">
                 <h3>${movie.title}</h3>
                 <span>${movie.year}</span>
             </div>
@@ -106,19 +105,22 @@ function displayMovies(items) {
     });
 }
 
-// فتح مشغل الفيديو الداخلي
+// فتح مشغل الفيديو الداخلي بالطريقة السليمة والصحيحة
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
     
+    let player = document.getElementById('youtubePlayer');
+    if (!player) return;
+
     if (sourceId.startsWith('http')) {
         let embedUrl = sourceId;
         if (sourceId.includes('t.me') && !sourceId.includes('embed=1')) {
             embedUrl += (sourceId.includes('?') ? '&' : '?') + 'embed=1';
         }
-        youtubePlayer.outerHTML = `<iframe id="youtubePlayer" src="${embedUrl}" width="100%" height="450px" frameborder="0" allowfullscreen></iframe>`;
+        player.src = embedUrl;
     } else {
-        youtubePlayer.outerHTML = `<iframe id="youtubePlayer" src="https://www.youtube.com/embed/${sourceId}?autoplay=1" width="100%" height="450px" frameborder="0" allowfullscreen></iframe>`;
+        player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
     }
     
     videoModal.style.display = 'flex';
@@ -178,12 +180,12 @@ function showEpisodes(season, seriesTitle) {
     }
 }
 
-// أزرار الإغلاق
+// أزرار الإغلاق وتفريغ المشغل
 if (closeModal) {
     closeModal.addEventListener('click', () => {
         videoModal.style.display = 'none';
         const player = document.getElementById('youtubePlayer');
-        if (player) player.src = '';
+        if (player) player.src = ''; // لإيقاف الفيديو عند الإغلاق
     });
 }
 

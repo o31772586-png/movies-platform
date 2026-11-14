@@ -62,8 +62,8 @@ body {
 /* بانر العرض الرئيسي (Hero Banner) */
 .hero-banner {
     position: relative;
-    width: 150%;
-    height: 600px;
+    width: 97%;
+    height: 650px;
     background: url('banner.jpg') no-repeat center center;
     background-size: cover;
     display: flex;

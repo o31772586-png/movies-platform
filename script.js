@@ -5,8 +5,8 @@ const movies = [
         title: "الفيلم الحصري | Godfather VIP",
         category: "action",
         badge: "حصري VIP",
-        image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600",
-        year: "2026"
+        image: "image: "godfather.jpg",
+        year: "1974"
     }
 ];
 

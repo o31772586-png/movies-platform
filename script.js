@@ -1,6 +1,6 @@
 const movies = [
     {
-        id: "FSkqNXtHlZE",
+        id: "FSkqNXtHlZE", // معرف يوتيوب الأصلي لفيلم Godfather
         title: "الفيلم اجنبي | Godfather VIP",
         category: "foreign-drama",
         badge: "اجنبي VIP",
@@ -109,16 +109,13 @@ function openVideoPlayer(sourceId, title) {
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
-    // التحقق هل هو رابط يوتيوب ولا تليجرام
     if (sourceId.startsWith('http')) {
-        // لو رابط تليجرام أو رابط خارجي، نستخدم التضمين المباشر أو الـ iframe المخصص
         let embedUrl = sourceId;
         if (sourceId.includes('t.me') && !sourceId.includes('embed=1')) {
             embedUrl += (sourceId.includes('?') ? '&' : '?') + 'embed=1';
         }
         player.src = embedUrl;
     } else {
-        // لو معرف يوتيوب (ID)
         player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
     }
     
@@ -179,7 +176,7 @@ function showEpisodes(season, seriesTitle) {
     }
 }
 
-// أزرار الإغلاق وتفريغ المشغل لمنع استهلاك الموارد وإيقاف الصوت
+// أزرار الإغلاق وتفريغ المشغل لمنع استمرار الصوت
 if (closeModal) {
     closeModal.addEventListener('click', () => {
         videoModal.style.display = 'none';

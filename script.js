@@ -168,15 +168,47 @@ if (searchInput) {
     });
 }
 
-// فتح مشغل الفيديو الداخلي (يوتيوب فقط)
+// فتح مشغل الفيديو الداخلي (يدعم يوتيوب والروابط المباشرة مثل الأرشيف)
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
-    
+
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
-    player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
+    // التحقق إذا كان الرابط مباشر (من الأرشيف) أو معرف يوتيوب
+    if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
+        // لو رابط مباشر -> استبدال الإطار بمشغل فيديو HTML5
+        if (player.tagName.toLowerCase() === 'iframe') {
+            const videoTag = document.createElement('video');
+            videoTag.id = 'youtubePlayer';
+            videoTag.controls = true;
+            videoTag.autoplay = true;
+            videoTag.style.width = '100%';
+            videoTag.style.height = '100%';
+            videoTag.style.backgroundColor = '#000';
+            videoTag.src = sourceId;
+            player.replaceWith(videoTag);
+        } else {
+            player.src = sourceId;
+        }
+    } else {
+        // لو معرف يوتيوب -> التأكد من وجود iframe وتشغيله كالمعتاد
+        if (player.tagName.toLowerCase() === 'video') {
+            const iframeTag = document.createElement('iframe');
+            iframeTag.id = 'youtubePlayer';
+            iframeTag.width = '100%';
+            iframeTag.height = '100%';
+            iframeTag.frameBorder = '0';
+            iframeTag.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframeTag.allowFullscreen = true;
+            iframeTag.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
+            player.replaceWith(iframeTag);
+        } else {
+            player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
+        }
+    }
+
     videoModal.style.display = 'flex';
 }
 

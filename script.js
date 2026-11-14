@@ -172,9 +172,7 @@ function openVideoPlayer(sourceId, title) {
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
-    // تشغيل يوتيوب مباشرة باستخدام الـ ID
     player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
-    
     videoModal.style.display = 'flex';
 }
 
@@ -188,7 +186,6 @@ function openSeriesModal(series) {
 
     series.seasons.forEach(season => {
         const seasonCard = document.createElement('div');
-        seasonCard.className, 'season-card';
         seasonCard.className = 'season-card';
         seasonCard.innerHTML = `
             <h4>${season.title}</h4>

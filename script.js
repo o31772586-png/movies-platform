@@ -31,7 +31,7 @@ const movies = [
                 title: "الموسم الأول",
                 totalEpisodes: 25,
                 episodes: [
-                    { ep: 2, title: "الحلقة 2", link: "https://youtu.be/EM-W-WBzAbU?si=u4TRV-Kuk4G3Cojr" }
+                    { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" }
                 ]
             },
             {
@@ -164,7 +164,7 @@ if (searchInput) {
     });
 }
 
-// فتح مشغل الفيديو الداخلي
+// فتح مشغل الفيديو الداخلي (يوتيوب فقط)
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
@@ -172,15 +172,8 @@ function openVideoPlayer(sourceId, title) {
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
-    if (sourceId.startsWith('http')) {
-        let embedUrl = sourceId;
-        if (sourceId.includes('t.me') && !sourceId.includes('embed=1')) {
-            embedUrl += (sourceId.includes('?') ? '&' : '?') + 'embed=1';
-        }
-        player.src = embedUrl;
-    } else {
-        player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
-    }
+    // تشغيل يوتيوب مباشرة باستخدام الـ ID
+    player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
     
     videoModal.style.display = 'flex';
 }
@@ -195,6 +188,7 @@ function openSeriesModal(series) {
 
     series.seasons.forEach(season => {
         const seasonCard = document.createElement('div');
+        seasonCard.className, 'season-card';
         seasonCard.className = 'season-card';
         seasonCard.innerHTML = `
             <h4>${season.title}</h4>

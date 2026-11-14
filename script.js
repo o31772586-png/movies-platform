@@ -15,6 +15,14 @@ const movies = [
         badge: "كرتون",
         image: "tom-and-jerry-poster.jpg",
         year: "2024"
+    },
+    {
+        id: "omar_cinema_aot/2",
+        title: "Attack on Titan - الحلقة 1",
+        category: "anime-series",
+        badge: "مسلسل أنمي",
+        image: "attack-on-titan-poster.jpg",
+        year: "2013"
     }
 ];
 

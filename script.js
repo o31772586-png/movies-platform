@@ -2,7 +2,7 @@
 const movies = [
     {
         id: "FSkqNXtHlZE",
-        title: "الفيلم المصري | Godfather VIP",
+        title: "الفيلم الاجنبي | Godfather VIP",
         category: "foreign-drama",
         badge: "اجنبي VIP",
         image: "godfather.jpg",

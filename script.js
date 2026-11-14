@@ -22,7 +22,7 @@ const movies = [
         title: "Attack on Titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
-        image: "Attack-on-Titan.jpg",
+        image: "attack-on-titan.jpg",
         year: "2013",
         isSeries: true,
         seasons: [
@@ -32,7 +32,6 @@ const movies = [
                 totalEpisodes: 25,
                 episodes: [
                     { ep: 1, title: "الحلقة 1", link: "https://t.me/omar_cinema_aot/2" }
-                    // الحلقات الباقية هتتضاف هنا تباعاً
                 ]
             },
             {
@@ -90,7 +89,6 @@ function displayMovies(items) {
             </div>
         `;
         
-        // عند الضغط على الكارت
         card.addEventListener('click', () => {
             if (movie.isSeries) {
                 openSeriesModal(movie);
@@ -111,13 +109,16 @@ function openVideoPlayer(sourceId, title) {
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
+    // التحقق هل هو رابط يوتيوب ولا تليجرام
     if (sourceId.startsWith('http')) {
+        // لو رابط تليجرام أو رابط خارجي، نستخدم التضمين المباشر أو الـ iframe المخصص
         let embedUrl = sourceId;
         if (sourceId.includes('t.me') && !sourceId.includes('embed=1')) {
             embedUrl += (sourceId.includes('?') ? '&' : '?') + 'embed=1';
         }
         player.src = embedUrl;
     } else {
+        // لو معرف يوتيوب (ID)
         player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
     }
     
@@ -178,7 +179,7 @@ function showEpisodes(season, seriesTitle) {
     }
 }
 
-// أزرار الإغلاق وتفريغ المشغل
+// أزرار الإغلاق وتفريغ المشغل لمنع استهلاك الموارد وإيقاف الصوت
 if (closeModal) {
     closeModal.addEventListener('click', () => {
         videoModal.style.display = 'none';
@@ -200,5 +201,5 @@ if (backToSeasons) {
     });
 }
 
-// التشغيل الأولي
+// التشغيل الأولي للمنصة
 displayMovies(movies);

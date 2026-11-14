@@ -8,6 +8,15 @@ const movies = [
         image: "godfather.jpg",
         year: "1974"
     }
+    },
+    {
+        id: "xlTt10NhdeA",
+        title: "Tom and Jerry",
+        category: "cartoons",
+        badge: "كرتون",
+        image: "tom-and-jerry-poster.jpg",
+        year: "2024"
+    }
 ];
 
 const moviesGrid = document.getElementById('moviesGrid');

@@ -22,7 +22,7 @@ const movies = [
         title: "Attack on Titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
-        image: "attack-on-titan.jpg",
+        image: "Attack-on-Titan.jpg",
         year: "2013",
         isSeries: true,
         seasons: [
@@ -93,10 +93,8 @@ function displayMovies(items) {
         // عند الضغط على الكارت
         card.addEventListener('click', () => {
             if (movie.isSeries) {
-                // لو مسلسل: افتح نافذة المواسم
                 openSeriesModal(movie);
             } else {
-                // لو فيلم: افتح مشغل الفيديو مباشرة
                 openVideoPlayer(movie.id, movie.title);
             }
         });
@@ -105,7 +103,7 @@ function displayMovies(items) {
     });
 }
 
-// فتح مشغل الفيديو الداخلي بالطريقة السليمة والصحيحة
+// فتح مشغل الفيديو الداخلي
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
@@ -185,7 +183,7 @@ if (closeModal) {
     closeModal.addEventListener('click', () => {
         videoModal.style.display = 'none';
         const player = document.getElementById('youtubePlayer');
-        if (player) player.src = ''; // لإيقاف الفيديو عند الإغلاق
+        if (player) player.src = '';
     });
 }
 

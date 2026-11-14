@@ -63,13 +63,13 @@ body {
 .hero-banner {
     position: relative;
     width: 100%;
-    height: 570px;
+    height: 600px;
     background: url('banner.jpg') no-repeat center center;
     background-size: cover;
     display: flex;
     align-items: flex-end;
-    padding: 50px;
-    margin-bottom: 60px;
+    padding: 35px;
+    margin-bottom: 40px;
     box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
 }
 

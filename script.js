@@ -1,9 +1,9 @@
 const movies = [
     {
         id: "FSkqNXtHlZE",
-        title: "الفيلم المصري | Godfather VIP",
+        title: "الفيلم اجنبي | Godfather VIP",
         category: "foreign-drama",
-        badge: "مصري VIP",
+        badge: "اجنبي VIP",
         image: "godfather.jpg",
         year: "1974",
         isSeries: false

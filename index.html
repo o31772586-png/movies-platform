@@ -10,10 +10,9 @@
 
     <!-- شريط التنقل العلوي -->
     <header class="navbar">
-       <div class="logo" style="font-size: 20px;">
-    🎬 Omar, s cima 🌚🙂
-</div>
-        
+        <div class="logo" style="font-size: 20px;">
+            🎬 Omar, s cima 🌚🙂
+        </div>
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="ابحث في الأفلام...">
         </div>
@@ -46,24 +45,17 @@
             <button class="filter-btn" data-category="cartoons">توم وجيري</button>
         </div>
 
-        <!-- شبكة عرض الأفلام -->
-        <div class="movies-grid" id="moviesGrid">
-   <div class="movie-card" data-category="cartoons">
-    <a href="https://youtu.be/xlTt10NhdeA" target="_blank">
-        <img src="tom-and-jerry-poster.jpg" alt="Tom and Jerry">
-        <h3>Tom and Jerry</h3>
-    </a>
-</div>
-        </div>
+        <!-- شبكة عرض الأفلام (سيتم تعبئتها تلقائياً من script.js) -->
+        <div class="movies-grid" id="moviesGrid"></div>
     </main>
 
-    <!-- نافذة العرض (Modal) -->
+    <!-- نافذة العرض للأفلام (Modal) -->
     <div class="video-modal" id="videoModal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <span id="modalTitle">عنوان الفيلم</span>
                 <div class="modal-actions">
-                    <!-- زر الخيارات (إعدادات الجودة والترجمة) -->
+                    <!-- زر الخيارات -->
                     <div class="dropdown-container">
                         <button id="dotsBtn" class="options-btn">⚙️ إعدادات العرض</button>
                         <div id="dotsDropdown" class="dropdown-menu" style="display: none;">
@@ -84,23 +76,26 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
     <!-- نافذة المواسم والحلقات الخاصة بالمسلسلات -->
-<div id="seriesModal" class="modal" style="display: none;">
-    <div class="modal-content series-modal-content">
-        <span id="closeSeriesModal" class="close-btn">&times;</span>
-        <h2 id="seriesModalTitle">عنوان المسلسل</h2>
-        
-        <!-- خطوة 1: عرض المواسم -->
-        <div id="seasonsContainer" class="seasons-grid"></div>
-        
-        <!-- خطوة 2: عرض الحلقات للموسم المختار -->
-        <div id="episodesContainer" class="episodes-grid" style="display: none;">
-            <button id="backToSeasons" class="back-btn">⬅ العودة للمواسم</button>
-            <h3 id="selectedSeasonTitle"></h3>
-            <div id="episodesList" class="episodes-list"></div>
+    <div id="seriesModal" class="video-modal" style="display: none;">
+        <div class="modal-content series-modal-content" style="padding: 20px;">
+            <div class="modal-header" style="background: transparent; border: none; padding: 0 0 15px 0;">
+                <h2 id="seriesModalTitle" style="color: #fff; font-size: 18px;">عنوان المسلسل</h2>
+                <button id="closeSeriesModal" class="close-btn">&times;</button>
+            </div>
+            
+            <!-- خطوة 1: عرض المواسم -->
+            <div id="seasonsContainer" class="seasons-grid"></div>
+            
+            <!-- خطوة 2: عرض الحلقات للموسم المختار -->
+            <div id="episodesContainer" class="episodes-container" style="display: none;">
+                <button id="backToSeasons" class="back-btn">⬅ العودة للمواسم</button>
+                <h3 id="selectedSeasonTitle" style="margin-bottom: 15px; color: #fff; font-size: 15px;"></h3>
+                <div id="episodesList" class="episodes-list"></div>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="script.js"></script>
 </body>
 </html>

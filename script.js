@@ -22,7 +22,7 @@ const movies = [
         title: "Attack on Titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
-        image: "attack-on-titan-poster.jpg",
+        image: "attack-on-titan.jpg",
         year: "2013",
         isSeries: true,
         seasons: [

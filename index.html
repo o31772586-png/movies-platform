@@ -14,7 +14,7 @@
             🎬 وَحْش <span class="logo-sub">CINEMA</span>
         </div>
         
-        <!-- زر تحميل VidMate في الشريط العلوي -->
+        <!-- زر تحميل VidMate في الشريط العلوي (خارجي) -->
         <div class="vidmate-promo">
             <a href="https://www.vidmateapp.com/" target="_blank" class="vidmate-download-btn">
                 <span class="vidmate-icon">📥</span>
@@ -27,13 +27,13 @@
         </div>
     </header>
 
-    <!-- بانر عرض سينمائي فخم (Netflix Style Hero Banner) -->
+    <!-- بانر عرض سينمائي فخم -->
     <section class="hero-banner">
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <span class="hero-badge">الأكثر مشاهدة VIP</span>
             <h1>Godfather VIP</h1>
-            <p>استمتع بأقوى الأفلام الحصرية بجودة سينمائية فائقة. حمل التطبيق وتابع بكل حرية وبأعلى جودة ممكنة.</p>
+            <p>استمتع بأقوى الأفلام الحصرية بجودة سينمائية فائقة مع الترجمة العربية الفورية.</p>
         </div>
     </section>
 
@@ -57,17 +57,16 @@
             <div class="modal-header">
                 <span id="modalTitle">عنوان الفيلم</span>
                 <div class="modal-actions">
-                    <!-- زر الخيارات القائمة المنسدلة -->
+                    <!-- زر الخيارات القائمة المنسدلة (الجودة والترجمة) -->
                     <div class="dropdown-container">
-                        <button id="dotsBtn" class="options-btn">⚙️ خيارات التحميل</button>
+                        <button id="dotsBtn" class="options-btn">⚙️ إعدادات العرض</button>
                         <div id="dotsDropdown" class="dropdown-menu" style="display: none;">
-                            <div class="vidmate-info-box">
-                                <p class="info-title">💡 تحميل عبر VidMate</p>
-                                <p class="info-desc">انسخ الرابط والصقه داخل تطبيق VidMate لتحميل الفيلم بأعلى جودة.</p>
-                            </div>
-                            <a href="#" id="downloadLink" class="copy-link-btn">📋 انسخ رابط الفيلم</a>
-                            <a href="https://www.vidmateapp.com/" target="_blank" class="external-vidmate-btn">📥 تحميل تطبيق VidMate</a>
-                            <button id="enhanceBtn" class="enhance-action-btn">تحسين الصورة: <span id="enhanceStatus">مفعل</span></button>
+                            <button id="hdToggleBtn" class="setting-option-btn">
+                                ⚡ الجودة العالية (HD): <span id="hdStatus">مفعل</span>
+                            </button>
+                            <button id="subToggleBtn" class="setting-option-btn">
+                                💬 الترجمة العربية: <span id="subStatus">معطل</span>
+                            </button>
                         </div>
                     </div>
                     <button id="closeModal" class="close-btn">&times;</button>

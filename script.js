@@ -9,7 +9,7 @@ const movies = [
         year: "1974"
     }
     },
-    {
+{
         id: "xlTt10NhdeA",
         title: "Tom and Jerry",
         category: "cartoons",

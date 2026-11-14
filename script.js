@@ -1,12 +1,12 @@
-// قائمة الأفلام المتاحة على المنصة
 const movies = [
     {
         id: "FSkqNXtHlZE",
-        title: "الفيلم الاجنبي | Godfather VIP",
+        title: "الفيلم المصري | Godfather VIP",
         category: "foreign-drama",
-        badge: "اجنبي VIP",
+        badge: "مصري VIP",
         image: "godfather.jpg",
-        year: "1974"
+        year: "1974",
+        isSeries: false
     },
     {
         id: "xlTt10NhdeA",
@@ -14,14 +14,15 @@ const movies = [
         category: "cartoons",
         badge: "كرتون",
         image: "tom-and-jerry-poster.jpg",
-        year: "2024"
+        year: "2024",
+        isSeries: false
     },
-{
+    {
         id: "aot-series",
         title: "Attack on Titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
-        image: "attack-on-titan.jpg",
+        image: "attack-on-titan-poster.jpg",
         year: "2013",
         isSeries: true,
         seasons: [
@@ -31,7 +32,7 @@ const movies = [
                 totalEpisodes: 25,
                 episodes: [
                     { ep: 1, title: "الحلقة 1", link: "https://t.me/omar_cinema_aot/2" }
-                    // هنا هنزود باقي الحلقات بالترتيب (2، 3، ... لحد 25)
+                    // الحلقات الباقية هتتضاف هنا تباعاً
                 ]
             },
             {
@@ -53,133 +54,151 @@ const movies = [
                 episodes: []
             }
         ]
-    } 
+    }
 ];
 
+// عناصر DOM
 const moviesGrid = document.getElementById('moviesGrid');
 const videoModal = document.getElementById('videoModal');
 const youtubePlayer = document.getElementById('youtubePlayer');
 const modalTitle = document.getElementById('modalTitle');
 const closeModal = document.getElementById('closeModal');
-const searchInput = document.getElementById('searchInput');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const dotsBtn = document.getElementById('dotsBtn');
-const dotsDropdown = document.getElementById('dotsDropdown');
 
-const hdToggleBtn = document.getElementById('hdToggleBtn');
-const hdStatus = document.getElementById('hdStatus');
-const subToggleBtn = document.getElementById('subToggleBtn');
-const subStatus = document.getElementById('subStatus');
+const seriesModal = document.getElementById('seriesModal');
+const closeSeriesModal = document.getElementById('closeSeriesModal');
+const seriesModalTitle = document.getElementById('seriesModalTitle');
+const seasonsContainer = document.getElementById('seasonsContainer');
+const episodesContainer = document.getElementById('episodesContainer');
+const backToSeasons = document.getElementById('backToSeasons');
+const selectedSeasonTitle = document.getElementById('selectedSeasonTitle');
+const episodesList = document.getElementById('episodesList');
 
-let currentMovieId = '';
-let isHD = true;
-let isSubbed = false;
-
-// عرض الأفلام في الشبكة
-function displayMovies(moviesToDisplay) {
+// دالة عرض الكارتات
+function displayMovies(items) {
+    if (!moviesGrid) return;
     moviesGrid.innerHTML = '';
-    if (moviesToDisplay.length === 0) {
-        moviesGrid.innerHTML = '<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 40px;">لا توجد أفلام مطابقة للبحث...</p>';
-        return;
-    }
-
-    moviesToDisplay.forEach(movie => {
+    items.forEach(movie => {
         const card = document.createElement('div');
         card.className = 'movie-card';
         card.innerHTML = `
-            <span class="badge">${movie.badge}</span>
-            <img src="${movie.image}" alt="${movie.title}">
-            <div class="movie-info">
+            <div class="card-image-container">
+                <img src="${movie.image}" alt="${movie.title}">
+                <span class="badge">${movie.badge}</span>
+            </div>
+            <div class="card-info">
                 <h3>${movie.title}</h3>
-                <span>إصدار ${movie.year}</span>
+                <span>${movie.year}</span>
             </div>
         `;
         
+        // عند الضغط على الكارت
         card.addEventListener('click', () => {
-            openPlayer(movie);
+            if (movie.isSeries) {
+                // لو مسلسل: افتح نافذة المواسم
+                openSeriesModal(movie);
+            } else {
+                // لو فيلم: افتح مشغل الفيديو مباشرة
+                openVideoPlayer(movie.id, movie.title);
+            }
         });
         
         moviesGrid.appendChild(card);
     });
 }
 
-// دالة تحميل وتشغيل المشغل
-function loadPlayer() {
-    let videoUrl = `https://www.youtube.com/embed/${currentMovieId}?autoplay=1`;
-    if (isSubbed) {
-        videoUrl += `&cc_load_policy=1&cc_lang_pref=ar`;
+// فتح مشغل الفيديو الداخلي
+function openVideoPlayer(sourceId, title) {
+    if (!videoModal) return;
+    modalTitle.textContent = title;
+    
+    if (sourceId.startsWith('http')) {
+        let embedUrl = sourceId;
+        if (sourceId.includes('t.me') && !sourceId.includes('embed=1')) {
+            embedUrl += (sourceId.includes('?') ? '&' : '?') + 'embed=1';
+        }
+        youtubePlayer.outerHTML = `<iframe id="youtubePlayer" src="${embedUrl}" width="100%" height="450px" frameborder="0" allowfullscreen></iframe>`;
+    } else {
+        youtubePlayer.outerHTML = `<iframe id="youtubePlayer" src="https://www.youtube.com/embed/${sourceId}?autoplay=1" width="100%" height="450px" frameborder="0" allowfullscreen></iframe>`;
     }
-    youtubePlayer.src = videoUrl;
-}
-
-// فتح مشغل الفيديو
-function openPlayer(movie) {
-    currentMovieId = movie.id;
-    modalTitle.textContent = movie.title;
-    loadPlayer();
+    
     videoModal.style.display = 'flex';
 }
 
-// إغلاق المشغل وإيقاف الفيديو
-function closePlayer() {
-    youtubePlayer.src = '';
-    videoModal.style.display = 'none';
+// فتح نافذة المواسم للمسلسلات
+function openSeriesModal(series) {
+    if (!seriesModal) return;
+    seriesModalTitle.textContent = series.title;
+    seasonsContainer.style.display = 'grid';
+    episodesContainer.style.display = 'none';
+    seasonsContainer.innerHTML = '';
+
+    series.seasons.forEach(season => {
+        const seasonCard = document.createElement('div');
+        seasonCard.className = 'season-card';
+        seasonCard.innerHTML = `
+            <h4>${season.title}</h4>
+            <p>${season.totalEpisodes} حلقة</p>
+        `;
+        seasonCard.addEventListener('click', () => {
+            showEpisodes(season, series.title);
+        });
+        seasonsContainer.appendChild(seasonCard);
+    });
+
+    seriesModal.style.display = 'flex';
 }
 
-closeModal.addEventListener('click', closePlayer);
-window.addEventListener('click', (e) => {
-    if (e.target === videoModal) {
-        closePlayer();
-    }
-});
+// عرض حلقات الموسم المختار
+function showEpisodes(season, seriesTitle) {
+    seasonsContainer.style.display = 'none';
+    episodesContainer.style.display = 'block';
+    selectedSeasonTitle.textContent = `${seriesTitle} - ${season.title}`;
+    episodesList.innerHTML = '';
 
-// التحكم في زر الجودة
-hdToggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    isHD = !isHD;
-    hdStatus.textContent = isHD ? 'مفعل' : 'معطل';
-});
+    for (let i = 1; i <= season.totalEpisodes; i++) {
+        const epData = season.episodes.find(e => e.ep === i);
+        const epBtn = document.createElement('button');
+        epBtn.className = 'episode-btn';
+        epBtn.textContent = `الحلقة ${i}`;
 
-// التحكم في زر الترجمة
-subToggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    isSubbed = !isSubbed;
-    subStatus.textContent = isSubbed ? 'مفعل' : 'معطل';
-    loadPlayer();
-});
-
-// بحث الأفلام
-searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = movies.filter(m => m.title.toLowerCase().includes(term));
-    displayMovies(filtered);
-});
-
-// فلاتر التصنيفات الجديدة
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.getAttribute('data-category');
-        
-        if (cat === 'all') {
-            displayMovies(movies);
+        if (epData && epData.link) {
+            epBtn.classList.add('available');
+            epBtn.addEventListener('click', () => {
+                seriesModal.style.display = 'none';
+                openVideoPlayer(epData.link, `${seriesTitle} - ${season.title} - الحلقة ${i}`);
+            });
         } else {
-            const filtered = movies.filter(m => m.category === cat);
-            displayMovies(filtered);
+            epBtn.classList.add('locked');
+            epBtn.title = "قريباً...";
+            epBtn.addEventListener('click', () => {
+                alert("هذه الحلقة ستتوفر قريباً في الدفعات القادمة!");
+            });
         }
+        episodesList.appendChild(epBtn);
+    }
+}
+
+// أزرار الإغلاق
+if (closeModal) {
+    closeModal.addEventListener('click', () => {
+        videoModal.style.display = 'none';
+        const player = document.getElementById('youtubePlayer');
+        if (player) player.src = '';
     });
-});
+}
 
-// القائمة المنسدلة للخيارات
-dotsBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dotsDropdown.style.display = dotsDropdown.style.display === 'block' ? 'none' : 'block';
-});
+if (closeSeriesModal) {
+    closeSeriesModal.addEventListener('click', () => {
+        seriesModal.style.display = 'none';
+    });
+}
 
-window.addEventListener('click', () => {
-    dotsDropdown.style.display = 'none';
-});
+if (backToSeasons) {
+    backToSeasons.addEventListener('click', () => {
+        episodesContainer.style.display = 'none';
+        seasonsContainer.style.display = 'grid';
+    });
+}
 
-// العرض الأولي للأفلام
+// التشغيل الأولي
 displayMovies(movies);

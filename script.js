@@ -1,6 +1,6 @@
 const movies = [
     {
-        id: "fSkgNXNiHIE", // تم تحديث الـ ID بنجاح لرابطك الجديد
+        id: "fSkgNXNiHIE",
         title: "الفيلم اجنبي | Godfather VIP",
         category: "foreign-drama",
         badge: "اجنبي VIP",
@@ -19,10 +19,10 @@ const movies = [
     },
     {
         id: "aot-series",
-        title: "attack on titan | هجوم العمالقة",
+        title: "Attack on Titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
-        image: "Attack-on-Titan.jpg",
+        image: "attack-on-titan.jpg",
         year: "2013",
         isSeries: true,
         seasons: [
@@ -61,6 +61,7 @@ const moviesGrid = document.getElementById('moviesGrid');
 const videoModal = document.getElementById('videoModal');
 const modalTitle = document.getElementById('modalTitle');
 const closeModal = document.getElementById('closeModal');
+const searchInput = document.getElementById('searchInput');
 
 const seriesModal = document.getElementById('seriesModal');
 const closeSeriesModal = document.getElementById('closeSeriesModal');
@@ -71,10 +72,46 @@ const backToSeasons = document.getElementById('backToSeasons');
 const selectedSeasonTitle = document.getElementById('selectedSeasonTitle');
 const episodesList = document.getElementById('episodesList');
 
+// إعدادات زر القائمة المنسدلة (⚙️ إعدادات العرض)
+const dotsBtn = document.getElementById('dotsBtn');
+const dotsDropdown = document.getElementById('dotsDropdown');
+const hdToggleBtn = document.getElementById('hdToggleBtn');
+const hdStatus = document.getElementById('hdStatus');
+const subToggleBtn = document.getElementById('subToggleBtn');
+const subStatus = document.getElementById('subStatus');
+
+if (dotsBtn && dotsDropdown) {
+    dotsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dotsDropdown.style.display = dotsDropdown.style.display === 'block' ? 'none' : 'block';
+    });
+    window.addEventListener('click', () => {
+        dotsDropdown.style.display = 'none';
+    });
+}
+
+if (hdToggleBtn) {
+    hdToggleBtn.addEventListener('click', () => {
+        hdStatus.textContent = hdStatus.textContent === 'مفعل' ? 'معطل' : 'مفعل';
+    });
+}
+
+if (subToggleBtn) {
+    subToggleBtn.addEventListener('click', () => {
+        subStatus.textContent = subStatus.textContent === 'مفعل' ? 'معطل' : 'مفعل';
+    });
+}
+
 // دالة عرض الكارتات
 function displayMovies(items) {
     if (!moviesGrid) return;
     moviesGrid.innerHTML = '';
+    
+    if (items.length === 0) {
+        moviesGrid.innerHTML = '<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 20px;">لا توجد أفلام أو مسلسلات متوفرة في هذا التصنيف حالياً.</p>';
+        return;
+    }
+
     items.forEach(movie => {
         const card = document.createElement('div');
         card.className = 'movie-card';
@@ -98,6 +135,32 @@ function displayMovies(items) {
         });
         
         moviesGrid.appendChild(card);
+    });
+}
+
+// فلاتر التصنيفات
+const filterButtons = document.querySelectorAll('.filter-btn');
+filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const category = btn.getAttribute('data-category');
+        if (category === 'all') {
+            displayMovies(movies);
+        } else {
+            const filtered = movies.filter(m => m.category === category);
+            displayMovies(filtered);
+        }
+    });
+});
+
+// نظام البحث
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = movies.filter(m => m.title.toLowerCase().includes(term));
+        displayMovies(filtered);
     });
 }
 
@@ -176,7 +239,7 @@ function showEpisodes(season, seriesTitle) {
     }
 }
 
-// أزرار الإغلاق وتفريغ المشغل لمنع استمرار الصوت
+// أزرار الإغلاق وتفريغ المشغل
 if (closeModal) {
     closeModal.addEventListener('click', () => {
         videoModal.style.display = 'none';

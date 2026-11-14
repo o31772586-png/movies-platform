@@ -31,7 +31,7 @@ const movies = [
                 title: "الموسم الأول",
                 totalEpisodes: 25,
                 episodes: [
-                    { ep: 1, title: "الحلقة 1", link: "https://t.me/omar_cinema_aot/2" }
+                    { ep: 2, title: "الحلقة 2", link: "https://youtu.be/EM-W-WBzAbU?si=u4TRV-Kuk4G3Cojr" }
                 ]
             },
             {

@@ -3,7 +3,7 @@ const movies = [
     {
         id: "fSkgNXNiHIE", // معرف الفيديو الخاص بك على يوتيوب
         title: "الفيلم الحصري | Godfather VIP",
-        category: "action",
+   category: "foreign-drama",
         badge: "حصري VIP",
         image: "godfather.jpg",
         year: "1974"

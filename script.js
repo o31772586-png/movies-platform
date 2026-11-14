@@ -16,14 +16,44 @@ const movies = [
         image: "tom-and-jerry-poster.jpg",
         year: "2024"
     },
-    {
-        id: "omar_cinema_aot/2",
-        title: "Attack on Titan - الحلقة 1",
+{
+        id: "aot-series",
+        title: "Attack on Titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
         image: "attack-on-titan-poster.jpg",
-        year: "2013"
-    }
+        year: "2013",
+        isSeries: true,
+        seasons: [
+            {
+                seasonNumber: 1,
+                title: "الموسم الأول",
+                totalEpisodes: 25,
+                episodes: [
+                    { ep: 1, title: "الحلقة 1", link: "https://t.me/omar_cinema_aot/2" }
+                    // هنا هنزود باقي الحلقات بالترتيب (2، 3، ... لحد 25)
+                ]
+            },
+            {
+                seasonNumber: 2,
+                title: "الموسم الثاني",
+                totalEpisodes: 12,
+                episodes: []
+            },
+            {
+                seasonNumber: 3,
+                title: "الموسم الثالث",
+                totalEpisodes: 22,
+                episodes: []
+            },
+            {
+                seasonNumber: 4,
+                title: "الموسم الرابع",
+                totalEpisodes: 28,
+                episodes: []
+            }
+        ]
+    } 
 ];
 
 const moviesGrid = document.getElementById('moviesGrid');

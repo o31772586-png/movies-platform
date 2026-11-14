@@ -94,7 +94,7 @@ body {
 .hero-banner {
     position: relative;
     height: 400px;
-    background: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400') no-repeat center center/cover;
+background: url('banner.jpg') no-repeat center center;
     display: flex;
     align-items: flex-end;
     padding: 40px;

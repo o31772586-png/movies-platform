@@ -45,7 +45,7 @@
             <button class="filter-btn" data-category="cartoons">توم وجيري</button>
         </div>
 
-        <!-- شبكة عرض الأفلام (سيتم تعبئتها تلقائياً من script.js) -->
+        <!-- شبكة عرض الأفلام -->
         <div class="movies-grid" id="moviesGrid"></div>
     </main>
 
@@ -55,7 +55,7 @@
             <div class="modal-header">
                 <span id="modalTitle">عنوان الفيلم</span>
                 <div class="modal-actions">
-                    <!-- زر الخيارات -->
+                    <!-- زر الخيارات (إعدادات الجودة والترجمة) -->
                     <div class="dropdown-container">
                         <button id="dotsBtn" class="options-btn">⚙️ إعدادات العرض</button>
                         <div id="dotsDropdown" class="dropdown-menu" style="display: none;">
@@ -84,10 +84,8 @@
                 <button id="closeSeriesModal" class="close-btn">&times;</button>
             </div>
             
-            <!-- خطوة 1: عرض المواسم -->
             <div id="seasonsContainer" class="seasons-grid"></div>
             
-            <!-- خطوة 2: عرض الحلقات للموسم المختار -->
             <div id="episodesContainer" class="episodes-container" style="display: none;">
                 <button id="backToSeasons" class="back-btn">⬅ العودة للمواسم</button>
                 <h3 id="selectedSeasonTitle" style="margin-bottom: 15px; color: #fff; font-size: 15px;"></h3>

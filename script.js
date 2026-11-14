@@ -1,6 +1,6 @@
 const movies = [
     {
-        id: "FSkqNXtHlZE", // معرف يوتيوب الأصلي لفيلم Godfather
+        id: "fSkgNXNiHIE", // تم تحديث الـ ID بنجاح لرابطك الجديد
         title: "الفيلم اجنبي | Godfather VIP",
         category: "foreign-drama",
         badge: "اجنبي VIP",
@@ -19,10 +19,10 @@ const movies = [
     },
     {
         id: "aot-series",
-        title: "Attack on Titan | هجوم العمالقة",
+        title: "attack on titan | هجوم العمالقة",
         category: "anime-series",
         badge: "مسلسل أنمي",
-        image: "attack-on-titan.jpg",
+        image: "Attack-on-Titan.jpg",
         year: "2013",
         isSeries: true,
         seasons: [

@@ -1,15 +1,14 @@
 // قائمة الأفلام المتاحة على المنصة
 const movies = [
     {
-        id: "fSkgNXNiHIE", // معرف الفيديو الخاص بك على يوتيوب
-        title: "الفيلم الحصري | Godfather VIP",
-   category: "foreign-drama",
-        badge: "حصري VIP",
+        id: "FSkqNXtHlZE",
+        title: "الفيلم المصري | Godfather VIP",
+        category: "foreign-drama",
+        badge: "اجنبي VIP",
         image: "godfather.jpg",
         year: "1974"
-    }
     },
-{
+    {
         id: "xlTt10NhdeA",
         title: "Tom and Jerry",
         category: "cartoons",

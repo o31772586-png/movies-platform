@@ -109,16 +109,18 @@ searchInput.addEventListener('input', (e) => {
     displayMovies(filtered);
 });
 
-// فلاتر التصنيفات
+// فلاتر التصنيفات الجديدة
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const cat = btn.getAttribute('data-category');
-        if (cat === 'all' || cat === 'action') {
+        
+        if (cat === 'all') {
             displayMovies(movies);
         } else {
-            displayMovies([]); 
+            const filtered = movies.filter(m => m.category === cat);
+            displayMovies(filtered);
         }
     });
 });

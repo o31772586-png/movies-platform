@@ -20,7 +20,6 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 const dotsBtn = document.getElementById('dotsBtn');
 const dotsDropdown = document.getElementById('dotsDropdown');
 
-// أزرار الإعدادات الجديدة
 const hdToggleBtn = document.getElementById('hdToggleBtn');
 const hdStatus = document.getElementById('hdStatus');
 const subToggleBtn = document.getElementById('subToggleBtn');
@@ -58,16 +57,12 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// دالة تحديث وتشغيل المشغل بالخيارات الحالية
+// دالة تحميل وتشغيل المشغل
 function loadPlayer() {
-    // بناء رابط يوتيوب مع تمرير أوامر الترجمة (إذا كانت مفعلة)
     let videoUrl = `https://www.youtube.com/embed/${currentMovieId}?autoplay=1`;
-    
     if (isSubbed) {
-        // تفعيل الترجمة واختيار اللغة العربية تلقائياً
         videoUrl += `&cc_load_policy=1&cc_lang_pref=ar`;
     }
-
     youtubePlayer.src = videoUrl;
 }
 
@@ -92,19 +87,19 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// التحكم في زر الجودة العالية
+// التحكم في زر الجودة
 hdToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     isHD = !isHD;
     hdStatus.textContent = isHD ? 'مفعل' : 'معطل';
 });
 
-// التحكم في زر الترجمة العربية
+// التحكم في زر الترجمة
 subToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     isSubbed = !isSubbed;
     subStatus.textContent = isSubbed ? 'مفعل' : 'معطل';
-    loadPlayer(); // إعادة تحميل المشغل لتطبيق الترجمة العربية فورا
+    loadPlayer();
 });
 
 // بحث الأفلام
@@ -138,5 +133,5 @@ window.addEventListener('click', () => {
     dotsDropdown.style.display = 'none';
 });
 
-// العرض الأولي
+// العرض الأولي للأفلام
 displayMovies(movies);

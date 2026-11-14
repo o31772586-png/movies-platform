@@ -17,13 +17,18 @@ const modalTitle = document.getElementById('modalTitle');
 const closeModal = document.getElementById('closeModal');
 const searchInput = document.getElementById('searchInput');
 const filterBtns = document.querySelectorAll('.filter-btn');
-const downloadLink = document.getElementById('downloadLink');
-const enhanceBtn = document.getElementById('enhanceBtn');
-const enhanceStatus = document.getElementById('enhanceStatus');
 const dotsBtn = document.getElementById('dotsBtn');
 const dotsDropdown = document.getElementById('dotsDropdown');
 
-let isEnhanced = true;
+// أزرار الإعدادات الجديدة
+const hdToggleBtn = document.getElementById('hdToggleBtn');
+const hdStatus = document.getElementById('hdStatus');
+const subToggleBtn = document.getElementById('subToggleBtn');
+const subStatus = document.getElementById('subStatus');
+
+let currentMovieId = '';
+let isHD = true;
+let isSubbed = false;
 
 // عرض الأفلام في الشبكة
 function displayMovies(moviesToDisplay) {
@@ -53,27 +58,24 @@ function displayMovies(moviesToDisplay) {
     });
 }
 
-// فتح مشغل الفيديو وتجهيز زر نسخ الرابط
+// دالة تحديث وتشغيل المشغل بالخيارات الحالية
+function loadPlayer() {
+    // بناء رابط يوتيوب مع تمرير أوامر الترجمة (إذا كانت مفعلة)
+    let videoUrl = `https://www.youtube.com/embed/${currentMovieId}?autoplay=1`;
+    
+    if (isSubbed) {
+        // تفعيل الترجمة واختيار اللغة العربية تلقائياً
+        videoUrl += `&cc_load_policy=1&cc_lang_pref=ar`;
+    }
+
+    youtubePlayer.src = videoUrl;
+}
+
+// فتح مشغل الفيديو
 function openPlayer(movie) {
+    currentMovieId = movie.id;
     modalTitle.textContent = movie.title;
-    youtubePlayer.src = `https://www.youtube.com/embed/${movie.id}?autoplay=1`;
-    
-    const youtubeUrl = `https://www.youtube.com/watch?v=${movie.id}`;
-    
-    downloadLink.href = "#";
-    downloadLink.innerHTML = "📋 انسخ رابط الفيلم";
-    
-    // عند الضغط على زر النسخ
-    downloadLink.onclick = (e) => {
-        e.preventDefault();
-        navigator.clipboard.writeText(youtubeUrl).then(() => {
-            downloadLink.innerHTML = "✅ تم النسخ! الصقه في VidMate";
-            setTimeout(() => {
-                downloadLink.innerHTML = "📋 انسخ رابط الفيلم";
-            }, 3500);
-        });
-    };
-    
+    loadPlayer();
     videoModal.style.display = 'flex';
 }
 
@@ -88,6 +90,21 @@ window.addEventListener('click', (e) => {
     if (e.target === videoModal) {
         closePlayer();
     }
+});
+
+// التحكم في زر الجودة العالية
+hdToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    isHD = !isHD;
+    hdStatus.textContent = isHD ? 'مفعل' : 'معطل';
+});
+
+// التحكم في زر الترجمة العربية
+subToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    isSubbed = !isSubbed;
+    subStatus.textContent = isSubbed ? 'مفعل' : 'معطل';
+    loadPlayer(); // إعادة تحميل المشغل لتطبيق الترجمة العربية فورا
 });
 
 // بحث الأفلام
@@ -119,11 +136,6 @@ dotsBtn.addEventListener('click', (e) => {
 
 window.addEventListener('click', () => {
     dotsDropdown.style.display = 'none';
-});
-
-enhanceBtn.addEventListener('click', () => {
-    isEnhanced = !isEnhanced;
-    enhanceStatus.textContent = isEnhanced ? 'مفعل' : 'معطل';
 });
 
 // العرض الأولي

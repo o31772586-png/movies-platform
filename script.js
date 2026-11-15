@@ -143,15 +143,22 @@ function displayMovies(items) {
         moviesGrid.appendChild(card);
     });
 }
-
-// فلاتر التصنيفات
+// فلتر التصنيفات //
 const filterButtons = document.querySelectorAll('.filter-btn');
 filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
+
         const category = btn.getAttribute('data-category');
+        
+        // --- السطرين الجداد هنا ---
+        const actorsBar = document.getElementById('actorsFilterBar');
+        if (actorsBar) {
+            actorsBar.style.display = (category === 'foreign-action') ? 'flex' : 'none';
+        }
+        // -------------------------
+
         if (category === 'all') {
             displayMovies(movies);
         } else {
@@ -292,3 +299,16 @@ if (backToSeasons) {
 
 // التشغيل الأولي للمنصة
 displayMovies(movies);
+function filterByActor(actorName, btnElement) {
+    document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+
+    const actionMovies = movies.filter(item => item.category === 'foreign-action');
+    
+    if (actorName === 'all') {
+        displayMovies(actionMovies);
+    } else {
+        const filtered = actionMovies.filter(item => item.actor === actorName);
+        displayMovies(filtered);
+    }
+}

@@ -34,8 +34,10 @@ const movies = [
                     { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
                   { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
                     { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },
-               { ep: 7, title: "الحلقة 7", link: "vpG_WifRebE" }
-                    
+                    { ep: 5, title: "الحلقة 5", link: "HOrq4JN5epY" },
+{ ep: 6, title: "الحلقة 6", link: "WOuJ0kkPGXE" },
+   { ep: 7, title: "الحلقة 7", link: "vpG_WifRebE" },
+{ ep: 8, title: "الحلقة 8", link: "sA59KDCGg7o" }
                      ]
             },
             {

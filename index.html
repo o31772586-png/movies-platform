@@ -45,6 +45,24 @@
             <button class="filter-btn" data-category="anime-series">مسلسلات أنمي</button>
             <button class="filter-btn" data-category="cartoons">توم وجيري</button>
         </div>
+        <!-- شريط فلترة الممثلين (يظهر فقط عند اختيار أكشن أجنبي) -->
+<div id="actorsFilterBar" style="display: none; gap: 15px; margin: 15px 0; overflow-x: auto; padding: 10px 5px; align-items: center;">
+    <button onclick="filterByActor('all', this)" class="filter-btn active" style="display: flex; align-items: center; gap: 8px;">
+        الكل
+    </button>
+    <button onclick="filterByActor('jason-statham', this)" class="filter-btn" style="display: flex; align-items: center; gap: 8px;">
+        <img src="jason.jpg" alt="جيسون ستاثام" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+        أفلام جيسون ستاثام
+    </button>
+    <button onclick="filterByActor('dwayne-johnson', this)" class="filter-btn" style="display: flex; align-items: center; gap: 8px;">
+        <img src="therock.jpg" alt="ذا روك" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+        أفلام ذا روك
+    </button>
+    <button onclick="filterByActor('jackie-chan', this)" class="filter-btn" style="display: flex; align-items: center; gap: 8px;">
+        <img src="jackie.jpg" alt="جاكي شان" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+        أفلام جاكي شان
+    </button>
+</div>
 
         <!-- شبكة عرض الأفلام -->
         <div class="movies-grid" id="moviesGrid"></div>

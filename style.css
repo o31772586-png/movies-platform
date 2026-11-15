@@ -384,3 +384,38 @@ body {
     cursor: pointer;
     margin-bottom: 15px;
 }
+/* تنسيقات شريط ممثلين الأكشن */
+#actorsFilterBar {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+    overflow-x: auto;
+    padding: 10px 5px;
+    align-items: center;
+    scrollbar-width: thin; /* إخفاء أو تصغير السكرول للوسامة */
+}
+
+#actorsFilterBar::-webkit-scrollbar {
+    height: 4px;
+}
+
+#actorsFilterBar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+#actorsFilterBar .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#actorsFilterBar .filter-btn img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}

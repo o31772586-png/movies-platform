@@ -8,8 +8,8 @@ const movies = [
         year: "1974",
         isSeries: false
     },
-    {
-        id: "https://dai.ly/xbx8s4i",
+  {
+        id: "https://www.dailymotion.com/embed/video/xbx8s4i?autoplay=1",
         title: "تجربة ديلي موشن | Test",
         category: "foreign-action",
         badge: "تجربة",
@@ -190,40 +190,11 @@ function openVideoPlayer(sourceId, title) {
         }
     };
 
-    // معالجة روابط Dailymotion بدقة تامة
-    if (sourceId.includes('dailymotion.com') || sourceId.includes('dai.ly')) {
-        let dmId = '';
-        if (sourceId.includes('dai.ly/')) {
-            dmId = sourceId.split('dai.ly/')[1].split('?')[0].split('/')[0];
-        } else if (sourceId.includes('/video/')) {
-            dmId = sourceId.split('/video/')[1].split('?')[0].split('_')[0];
-        }
-        
-        // لو الرابط عبارة عن معرف مباشر أو تم استخلاصه
-        if (!dmId && sourceId.length < 15) {
-            dmId = sourceId;
-        }
-
-        ensureIframe(`https://www.dailymotion.com/embed/video/${dmId}?autoplay=1`);
-    } 
-    // روابط الفيديو المباشرة
-    else if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
-        if (player.tagName.toLowerCase() === 'iframe') {
-            const videoTag = document.createElement('video');
-            videoTag.id = 'youtubePlayer';
-            videoTag.controls = true;
-            videoTag.autoplay = true;
-            videoTag.style.width = '100%';
-            videoTag.style.height = '100%';
-            videoTag.style.backgroundColor = '#000';
-            videoTag.src = sourceId;
-            player.replaceWith(videoTag);
-        } else {
-            player.src = sourceId;
-        }
-    } 
-    // يوتيوب افتراضياً
-    else {
+    // لو اللينك يبدأ بـ http أو https (سواء ديلي موشن أو أي رابط مباشر) شغله مباشرة
+    if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
+        ensureIframe(sourceId);
+    } else {
+        // يوتيوب افتراضياً
         ensureIframe(`https://www.youtube.com/embed/${sourceId}?autoplay=1`);
     }
 

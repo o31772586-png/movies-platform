@@ -7,16 +7,7 @@ const movies = [
         image: "godfather.jpg",
         year: "1974",
         isSeries: false
-    },
-  {
-        id: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"      
-        title: "تجربة ديلي موشن | Test",
-        category: "foreign-action",
-        badge: "تجربة",
-        image: "banner.jpg",
-        year: "2026",
-        isSeries: false
-    },
+    }, 
     {
         id: "xlTt10NhdeA",
         title: "Tom and Jerry",

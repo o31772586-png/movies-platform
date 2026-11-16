@@ -320,6 +320,13 @@ if (backToSeasons) {
         seasonsContainer.style.display = 'grid';
     });
 }
+// التشغيل الأولي للمنصة وإخفاء سلاسل الأفلام بره قسم الأكشن
+document.addEventListener("DOMContentLoaded", () => {
+    const seriesGrid = document.getElementById('seriesGrid');
+    if (seriesGrid) seriesGrid.style.display = 'none';
+    displayMovies(movies);
+});
+
 // دالة فلترة التصنيفات العامة
 document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -331,7 +338,7 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
         const seriesGrid = document.getElementById('seriesGrid');
         const actorsBar = document.getElementById('actorsFilterBar');
 
-        // إخفاء الكل افتراضياً
+        // إخفاء فلاتر الممثلين والسلاسل افتراضياً في كل الأقسام
         if (actorsBar) actorsBar.style.display = 'none';
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
@@ -340,7 +347,7 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
             displayMovies(movies);
         } else if (category === 'foreign-action') {
             if (actorsBar) actorsBar.style.display = 'flex';
-            if (seriesGrid) seriesGrid.style.display = 'grid'; // سلاسل الأكشن تظهر هنا فقط
+            if (seriesGrid) seriesGrid.style.display = 'grid'; // السلاسل تظهر هنا فقط
             if (moviesGrid) moviesGrid.style.display = 'none';
         } else {
             const filtered = movies.filter(item => item.category === category);

@@ -9,7 +9,7 @@ const movies = [
         isSeries: false
     },
   {
-        id: "https://www.dailymotion.com/embed/video/xbx8s4i?autoplay=1",
+        id: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"      
         title: "تجربة ديلي موشن | Test",
         category: "foreign-action",
         badge: "تجربة",

@@ -31,7 +31,6 @@ const movies = [
                 title: "الموسم الأول",
                 totalEpisodes: 25,
                 episodes: [
-                    { ep: 1, title: "الحلقة 1", link: "https://dai.ly/xbx8s4i" },
                     { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
                     { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
                     { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },
@@ -41,6 +40,7 @@ const movies = [
                     { ep: 8, title: "الحلقة 8", link: "sA59KDCGg7o" },
                     { ep: 9, title: "الحلقة 9", link: "NTs2EFqNLB4" },                   
                     { ep: 10, title: "الحلقة 10", link: "vsb0-FZdsFg" },
+                   { ep: 11, title: "الحلقة 11", link: "https://drive.google.com/file/d/1Qm1B7acnr7miwfnsBS6tnXC6cEdcD5uD/preview" },
                 ]
             },
             {

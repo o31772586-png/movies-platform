@@ -320,9 +320,6 @@ if (backToSeasons) {
         seasonsContainer.style.display = 'grid';
     });
 }
-
-// التشغيل الأولي للمنصة
-displayMovies(movies);
 // دالة فلترة التصنيفات العامة
 document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -340,8 +337,15 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
 
         if (category === 'foreign-action') {
             if (actorsBar) actorsBar.style.display = 'flex';
-            const actionMovies = movies.filter(item => item.category === 'foreign-action');
-            displayMovies(actionMovies);
+            if (seriesGrid) seriesGrid.style.display = 'grid'; // ظهور سلاسل الأكشن هنا فقط افتراضياً
+            if (moviesGrid) moviesGrid.style.display = 'none';
+            
+            // تفعيل زر "الكل" تلقائياً في شريط الممثلين
+            const allActorBtn = actorsBar.querySelector('button');
+            if (allActorBtn) {
+                document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(b => b.classList.remove('active'));
+                allActorBtn.classList.add('active');
+            }
         } else if (category === 'all') {
             displayMovies(movies);
         } else {
@@ -361,11 +365,9 @@ function filterByActor(actorName, btnElement) {
     const seriesGrid = document.getElementById('seriesGrid');
 
     if (actorName === 'all') {
-        // إظهار السلاسل هنا فقط وإخفاء الأفلام العادية
         if (seriesGrid) seriesGrid.style.display = 'grid';
         if (moviesGrid) moviesGrid.style.display = 'none';
     } else {
-        // إخفاء السلاسل وعرض أفلام الممثل
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
         

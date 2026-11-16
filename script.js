@@ -179,8 +179,7 @@ if (searchInput) {
         displayMovies(filtered);
     });
 }
-
-// فتح مشغل الفيديو الداخلي (يدعم يوتيوب والروابط المباشرة مثل الأرشيف)
+// فتح مشغل الفيديو الداخلي (يدعم يوتيوب، ديلي موشن، والروابط المباشرة)
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
@@ -188,9 +187,35 @@ function openVideoPlayer(sourceId, title) {
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
-    // التحقق إذا كان الرابط مباشر (من الأرشيف) أو معرف يوتيوب
-    if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
-        // لو رابط مباشر -> استبدال الإطار بمشغل فيديو HTML5
+    // دالة مساعدة للتأكد إن العنصر الموجود هو iframe (عشان يوتيوب وديلي موشن)
+    const ensureIframe = (embedUrl) => {
+        if (player.tagName.toLowerCase() === 'video') {
+            const iframeTag = document.createElement('iframe');
+            iframeTag.id = 'youtubePlayer';
+            iframeTag.width = '100%';
+            iframeTag.height = '100%';
+            iframeTag.frameBorder = '0';
+            iframeTag.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+            iframeTag.allowFullscreen = true;
+            iframeTag.src = embedUrl;
+            player.replaceWith(iframeTag);
+        } else {
+            player.src = embedUrl;
+        }
+    };
+
+    // 1. لو الرابط من Dailymotion (سواء dai.ly أو dailymotion.com)
+    if (sourceId.includes('dai.ly/') || sourceId.includes('dailymotion.com/')) {
+        let dmId = '';
+        if (sourceId.includes('dai.ly/')) {
+            dmId = sourceId.split('dai.ly/')[1].split('?')[0].split('/')[0];
+        } else if (sourceId.includes('/video/')) {
+            dmId = sourceId.split('/video/')[1].split('?')[0].split('_')[0];
+        }
+        ensureIframe(`https://www.dailymotion.com/embed/video/${dmId}?autoplay=1`);
+
+    // 2. لو رابط مباشر لفيديو (http/https ومش ديلي موشن)
+    } else if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
         if (player.tagName.toLowerCase() === 'iframe') {
             const videoTag = document.createElement('video');
             videoTag.id = 'youtubePlayer';
@@ -204,21 +229,10 @@ function openVideoPlayer(sourceId, title) {
         } else {
             player.src = sourceId;
         }
+
+    // 3. لو معرف يوتيوب (الوضع الافتراضي بدون أي تغيير)
     } else {
-        // لو معرف يوتيوب -> التأكد من وجود iframe وتشغيله كالمعتاد
-        if (player.tagName.toLowerCase() === 'video') {
-            const iframeTag = document.createElement('iframe');
-            iframeTag.id = 'youtubePlayer';
-            iframeTag.width = '100%';
-            iframeTag.height = '100%';
-            iframeTag.frameBorder = '0';
-            iframeTag.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-            iframeTag.allowFullscreen = true;
-            iframeTag.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
-            player.replaceWith(iframeTag);
-        } else {
-            player.src = `https://www.youtube.com/embed/${sourceId}?autoplay=1`;
-        }
+        ensureIframe(`https://www.youtube.com/embed/${sourceId}?autoplay=1`);
     }
 
     videoModal.style.display = 'flex';

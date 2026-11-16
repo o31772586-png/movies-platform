@@ -343,16 +343,20 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
 
-        if (category === 'all') {
+     if (category === 'all') {
+            if (moviesGrid) moviesGrid.style.display = 'grid';
+            if (seriesGrid) seriesGrid.style.display = 'none';
             displayMovies(movies);
         } else if (category === 'foreign-action') {
             if (actorsBar) actorsBar.style.display = 'flex';
-            if (seriesGrid) seriesGrid.style.display = 'grid'; // السلاسل تظهر هنا فقط
+            if (seriesGrid) seriesGrid.style.display = 'grid';
             if (moviesGrid) moviesGrid.style.display = 'none';
         } else {
+            if (moviesGrid) moviesGrid.style.display = 'grid';
+            if (seriesGrid) seriesGrid.style.display = 'none';
             const filtered = movies.filter(item => item.category === category);
             displayMovies(filtered);
-        }
+        } 
     });
 });
 
@@ -361,17 +365,15 @@ function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
-    const actionMovies = movies.filter(item => item.category === 'foreign-action');
-    const moviesGrid = document.getElementById('moviesGrid');
-    const seriesGrid = document.getElementById('seriesGrid');
-
-    if (actorName === 'all') {
+ if (actorName === 'all') {
         if (seriesGrid) seriesGrid.style.display = 'grid';
         if (moviesGrid) moviesGrid.style.display = 'none';
     } else {
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
-        
+        const filtered = actionMovies.filter(item => item.actor === actorName);
+        displayMovies(filtered);
+    } 
         const filtered = actionMovies.filter(item => item.actor === actorName);
         displayMovies(filtered);
     }

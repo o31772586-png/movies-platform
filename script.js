@@ -166,7 +166,7 @@ if (searchInput) {
     });
 }
 
-// فتح مشغل الفيديو الداخلي (يدعم يوتيوب، ديلي موشن، والروابط المباشرة)
+// فتح مشغل الفيديو الداخلي (دعم كامل ومحدث للديلي موشن ويوتيوب)
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
@@ -190,15 +190,24 @@ function openVideoPlayer(sourceId, title) {
         }
     };
 
-    if (sourceId.includes('dai.ly/') || sourceId.includes('dailymotion.com/')) {
+    // معالجة روابط Dailymotion بدقة تامة
+    if (sourceId.includes('dailymotion.com') || sourceId.includes('dai.ly')) {
         let dmId = '';
         if (sourceId.includes('dai.ly/')) {
             dmId = sourceId.split('dai.ly/')[1].split('?')[0].split('/')[0];
         } else if (sourceId.includes('/video/')) {
             dmId = sourceId.split('/video/')[1].split('?')[0].split('_')[0];
         }
+        
+        // لو الرابط عبارة عن معرف مباشر أو تم استخلاصه
+        if (!dmId && sourceId.length < 15) {
+            dmId = sourceId;
+        }
+
         ensureIframe(`https://www.dailymotion.com/embed/video/${dmId}?autoplay=1`);
-    } else if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
+    } 
+    // روابط الفيديو المباشرة
+    else if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
         if (player.tagName.toLowerCase() === 'iframe') {
             const videoTag = document.createElement('video');
             videoTag.id = 'youtubePlayer';
@@ -212,7 +221,9 @@ function openVideoPlayer(sourceId, title) {
         } else {
             player.src = sourceId;
         }
-    } else {
+    } 
+    // يوتيوب افتراضياً
+    else {
         ensureIframe(`https://www.youtube.com/embed/${sourceId}?autoplay=1`);
     }
 

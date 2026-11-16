@@ -309,44 +309,47 @@ function filterByActor(actorName, btnElement) {
     const moviesGrid = document.getElementById('moviesGrid') || document.querySelector('.movies-grid');
 
     if (actorName === 'all') {
-        moviesGrid.innerHTML = `
-            <div class="movie-card" onclick="openSeries('fast-and-furious')">
-                <img src="fast-and-furious.jpg" alt="السرعة والغضب">
-                <h3>سلسلة السرعة والغضب</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('matrix')">
-                <img src="matrix.jpg" alt="الماتريكس">
-                <h3>سلسلة الماتريكس</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('transformers')">
-                <img src="transformers.jpg" alt="الترانسفورمارز">
-                <h3>سلسلة الترانسفورمارز</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('terminator')">
-                <img src="terminator.jpg" alt="المبيد">
-                <h3>سلسلة المبيد</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('avengers')">
-                <img src="avengers.jpg" alt="المنتقمون">
-                <h3>سلسلة المنتقمون</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('captain-america')">
-                <img src="captain-america.jpg" alt="كابتن أمريكا">
-                <h3>سلسلة كابتن أمريكا</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('spider-man')">
-                <img src="spider-man.jpg" alt="سبايدر مان">
-                <h3>سلسلة سبايدر مان</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('iron-man')">
-                <img src="iron-man.jpg" alt="آيرون مان">
-                <h3>سلسلة آيرون مان</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('john-wick')">
-                <img src="john-wick.jpg" alt="جون ويك">
-                <h3>سلسلة جون ويك</h3>
-            </div>
-        `;
+        // لو مش ظاهر حاجة، تأكد إن العنصر موجود وبنحط الكروت جواه مباشرة
+        if (moviesGrid) {
+            moviesGrid.innerHTML = `
+                <div class="movie-card" onclick="openSeries('fast-and-furious')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="fast-and-furious.jpg" alt="السرعة والغضب" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة السرعة والغضب</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('matrix')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="matrix.jpg" alt="الماتريكس" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة الماتريكس</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('transformers')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="transformers.jpg" alt="الترانسفورمارز" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة الترانسفورمارز</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('terminator')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="terminator.jpg" alt="المبيد" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة المبيد</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('avengers')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="avengers.jpg" alt="المنتقمون" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة المنتقمون</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('captain-america')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="captain-america.jpg" alt="كابتن أمريكا" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة كابتن أمريكا</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('spider-man')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="spider-man.jpg" alt="سبايدر مان" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة سبايدر مان</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('iron-man')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="iron-man.jpg" alt="آيرون مان" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة آيرون مان</h3>
+                </div>
+                <div class="movie-card" onclick="openSeries('john-wick')" style="cursor:pointer; text-align:center; margin:10px;">
+                    <img src="john-wick.jpg" alt="جون ويك" style="width:100%; border-radius:8px;">
+                    <h3>سلسلة جون ويك</h3>
+                </div>
+            `;
+        }
     } else {
         const filtered = actionMovies.filter(item => item.actor === actorName);
         displayMovies(filtered);

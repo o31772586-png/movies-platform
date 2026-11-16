@@ -8,14 +8,16 @@ const movies = [
         year: "1974",
         isSeries: false
     },
-    id: "https://dai.ly/xbx8s4i",
+    {
+        id: "https://dai.ly/xbx8s4i",
         title: "تجربة ديلي موشن | Test",
         category: "foreign-action",
         badge: "تجربة",
         image: "banner.jpg",
         year: "2026",
         isSeries: false
-},
+    },
+    {
         id: "xlTt10NhdeA",
         title: "Tom and Jerry",
         category: "cartoons",
@@ -38,17 +40,18 @@ const movies = [
                 title: "الموسم الأول",
                 totalEpisodes: 25,
                 episodes: [
- { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
- { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
- { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },
- { ep: 5, title: "الحلقة 5", link: "HOrq4JN5epY" },
-{ ep: 6, title: "الحلقة 6", link: "WOuJ0kkPGXE" },
- { ep: 7, title: "الحلقة 7", link: "vpG_WifRebE" },
-{ ep: 8, title: "الحلقة 8", link: "sA59KDCGg7o" },
- { ep: 9, title: "الحلقة 9", link: "NTs2EFqNLB4" },                   
-{ ep: 10, title: "الحلقة 10", link: "vsb0-FZdsFg" },
-  { ep: 11, title: "الحلقة 11", link: "XBBgwmoltq0" }                  
-                     ]
+                    { ep: 1, title: "الحلقة 1", link: "https://dai.ly/xbx8s4i" },
+                    { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
+                    { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
+                    { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },
+                    { ep: 5, title: "الحلقة 5", link: "HOrq4JN5epY" },
+                    { ep: 6, title: "الحلقة 6", link: "WOuJ0kkPGXE" },
+                    { ep: 7, title: "الحلقة 7", link: "vpG_WifRebE" },
+                    { ep: 8, title: "الحلقة 8", link: "sA59KDCGg7o" },
+                    { ep: 9, title: "الحلقة 9", link: "NTs2EFqNLB4" },                   
+                    { ep: 10, title: "الحلقة 10", link: "vsb0-FZdsFg" },
+                    { ep: 11, title: "الحلقة 11", link: "XBBgwmoltq0" }                  
+                ]
             },
             {
                 seasonNumber: 2,
@@ -153,30 +156,6 @@ function displayMovies(items) {
         moviesGrid.appendChild(card);
     });
 }
-// فلتر التصنيفات //
-const filterButtons = document.querySelectorAll('.filter-btn');
-filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const category = btn.getAttribute('data-category');
-        
-        // --- السطرين الجداد هنا ---
-        const actorsBar = document.getElementById('actorsFilterBar');
-        if (actorsBar) {
-            actorsBar.style.display = (category === 'foreign-action') ? 'flex' : 'none';
-        }
-        // -------------------------
-
-        if (category === 'all') {
-            displayMovies(movies);
-        } else {
-            const filtered = movies.filter(m => m.category === category);
-            displayMovies(filtered);
-        }
-    });
-});
 
 // نظام البحث
 if (searchInput) {
@@ -186,6 +165,7 @@ if (searchInput) {
         displayMovies(filtered);
     });
 }
+
 // فتح مشغل الفيديو الداخلي (يدعم يوتيوب، ديلي موشن، والروابط المباشرة)
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
@@ -194,7 +174,6 @@ function openVideoPlayer(sourceId, title) {
     let player = document.getElementById('youtubePlayer');
     if (!player) return;
 
-    // دالة مساعدة للتأكد إن العنصر الموجود هو iframe (عشان يوتيوب وديلي موشن)
     const ensureIframe = (embedUrl) => {
         if (player.tagName.toLowerCase() === 'video') {
             const iframeTag = document.createElement('iframe');
@@ -211,7 +190,6 @@ function openVideoPlayer(sourceId, title) {
         }
     };
 
-    // 1. لو الرابط من Dailymotion (سواء dai.ly أو dailymotion.com)
     if (sourceId.includes('dai.ly/') || sourceId.includes('dailymotion.com/')) {
         let dmId = '';
         if (sourceId.includes('dai.ly/')) {
@@ -220,8 +198,6 @@ function openVideoPlayer(sourceId, title) {
             dmId = sourceId.split('/video/')[1].split('?')[0].split('_')[0];
         }
         ensureIframe(`https://www.dailymotion.com/embed/video/${dmId}?autoplay=1`);
-
-    // 2. لو رابط مباشر لفيديو (http/https ومش ديلي موشن)
     } else if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
         if (player.tagName.toLowerCase() === 'iframe') {
             const videoTag = document.createElement('video');
@@ -236,8 +212,6 @@ function openVideoPlayer(sourceId, title) {
         } else {
             player.src = sourceId;
         }
-
-    // 3. لو معرف يوتيوب (الوضع الافتراضي بدون أي تغيير)
     } else {
         ensureIframe(`https://www.youtube.com/embed/${sourceId}?autoplay=1`);
     }
@@ -267,6 +241,11 @@ function openSeriesModal(series) {
     });
 
     seriesModal.style.display = 'flex';
+}
+
+// دالة عرض مواسم مسلسلات الأكشن من الـ HTML الخارجي (openSeries)
+function openSeries(seriesKey) {
+    // يمكنك ربطها ببيانات المسلسلات الخارجية لو وجدت
 }
 
 // عرض حلقات الموسم المختار
@@ -320,6 +299,7 @@ if (backToSeasons) {
         seasonsContainer.style.display = 'grid';
     });
 }
+
 // التشغيل الأولي للمنصة وإخفاء سلاسل الأفلام بره قسم الأكشن
 document.addEventListener("DOMContentLoaded", () => {
     const seriesGrid = document.getElementById('seriesGrid');
@@ -338,12 +318,11 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
         const seriesGrid = document.getElementById('seriesGrid');
         const actorsBar = document.getElementById('actorsFilterBar');
 
-        // إخفاء فلاتر الممثلين والسلاسل افتراضياً في كل الأقسام
         if (actorsBar) actorsBar.style.display = 'none';
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
 
-     if (category === 'all') {
+        if (category === 'all') {
             if (moviesGrid) moviesGrid.style.display = 'grid';
             if (seriesGrid) seriesGrid.style.display = 'none';
             displayMovies(movies);
@@ -356,7 +335,7 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
             if (seriesGrid) seriesGrid.style.display = 'none';
             const filtered = movies.filter(item => item.category === category);
             displayMovies(filtered);
-        } 
+        }
     });
 });
 
@@ -365,16 +344,17 @@ function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
- if (actorName === 'all') {
+    const actionMovies = movies.filter(item => item.category === 'foreign-action');
+    const moviesGrid = document.getElementById('moviesGrid');
+    const seriesGrid = document.getElementById('seriesGrid');
+
+    if (actorName === 'all') {
         if (seriesGrid) seriesGrid.style.display = 'grid';
         if (moviesGrid) moviesGrid.style.display = 'none';
     } else {
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
-        const filtered = actionMovies.filter(item => item.actor === actorName);
-        displayMovies(filtered);
-    } 
-        const filtered = actionMovies.filter(item => item.actor === actorName);
-        displayMovies(filtered);
+        // يمكنك فلترة الممثلين هنا حسب الحقل الخاص بهم لو أردت لاحقاً
+        displayMovies(actionMovies);
     }
 }

@@ -8,7 +8,14 @@ const movies = [
         year: "1974",
         isSeries: false
     },
-    {
+    id: "https://dai.ly/xbx8s4i",
+        title: "تجربة ديلي موشن | Test",
+        category: "foreign-action",
+        badge: "تجربة",
+        image: "banner.jpg",
+        year: "2026",
+        isSeries: false
+},
         id: "xlTt10NhdeA",
         title: "Tom and Jerry",
         category: "cartoons",

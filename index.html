@@ -205,7 +205,63 @@
             </div>
         </div>
     </div>
+<!-- تذييل المنصة الاحترافي (Footer) -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <h3 class="footer-logo">CIMA<span>HUB</span></h3>
+            <p class="footer-tagline">منصتك الأولى لمشاهدة أحدث الأفلام والمسلسلات والأنمي بجودة عالية وبدون إعلانات مزعجة.</p>
+        </div>
 
+        <div class="footer-links-grid">
+            <!-- العمود الأول: الروابط القانونية والسياسات -->
+            <div class="footer-column">
+                <h4>الروابط القانونية والسياسات</h4>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('terms')">شروط الاستخدام (Terms of Use)</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('privacy')">سياسة الخصوصية (Privacy Policy)</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('cookies')">إعدادات ملفات تعريف الارتباط</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('legal')">المعلومات القانونية (Legal Notices)</a></li>
+                </ul>
+            </div>
+
+            <!-- العمود الثاني: المساعدة والدعم الفني -->
+            <div class="footer-column">
+                <h4>المساعدة والدعم الفني</h4>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('faq')">مركز المساعدة والأسئلة الشائعة</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('contact')">اتصل بنا (Contact Us)</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('devices')">طرق المشاهدة والأجهزة المدعومة</a></li>
+                    <li><a href="https://fast.com" target="_blank" rel="noopener">اختبار سرعة الإنترنت (Speed Test)</a></li>
+                </ul>
+            </div>
+
+            <!-- العمود الثالث: عن المنصة -->
+            <div class="footer-column">
+                <h4>عن المنصة</h4>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('about')">من نحن (About Us)</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('dmca')">إخلاء مسؤولية حقوق الملكية (DMCA)</a></li>
+                    <li><a href="javascript:void(0)" onclick="openInfoModal('request')">طلب فيلم أو مسلسل جديد</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Cima Hub — جميع الحقوق محفوظة. تم التطوير بواسطة <strong>وَحْش</strong>.</p>
+            <span class="footer-region">مصر • العربية</span>
+        </div>
+    </div>
+</footer>
+
+<!-- نافذة عرض تفاصيل الروابط القانونية والمعلومات -->
+<div id="infoModal" class="info-modal" onclick="closeInfoModal(event)">
+    <div class="info-modal-content">
+        <span class="close-info-btn" onclick="closeInfoModal(event, true)">&times;</span>
+        <h2 id="infoModalTitle">عنوان الصفحة</h2>
+        <div id="infoModalBody" class="info-modal-body"></div>
+    </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>

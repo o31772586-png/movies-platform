@@ -331,23 +331,17 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
         const seriesGrid = document.getElementById('seriesGrid');
         const actorsBar = document.getElementById('actorsFilterBar');
 
+        // إخفاء الكل افتراضياً
         if (actorsBar) actorsBar.style.display = 'none';
         if (seriesGrid) seriesGrid.style.display = 'none';
         if (moviesGrid) moviesGrid.style.display = 'grid';
 
-        if (category === 'foreign-action') {
-            if (actorsBar) actorsBar.style.display = 'flex';
-            if (seriesGrid) seriesGrid.style.display = 'grid'; // ظهور سلاسل الأكشن هنا فقط افتراضياً
-            if (moviesGrid) moviesGrid.style.display = 'none';
-            
-            // تفعيل زر "الكل" تلقائياً في شريط الممثلين
-            const allActorBtn = actorsBar.querySelector('button');
-            if (allActorBtn) {
-                document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(b => b.classList.remove('active'));
-                allActorBtn.classList.add('active');
-            }
-        } else if (category === 'all') {
+        if (category === 'all') {
             displayMovies(movies);
+        } else if (category === 'foreign-action') {
+            if (actorsBar) actorsBar.style.display = 'flex';
+            if (seriesGrid) seriesGrid.style.display = 'grid'; // سلاسل الأكشن تظهر هنا فقط
+            if (moviesGrid) moviesGrid.style.display = 'none';
         } else {
             const filtered = movies.filter(item => item.category === category);
             displayMovies(filtered);
@@ -355,7 +349,7 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
     });
 });
 
-// دالة فلترة الممثلين وزرار الكل الخاص بأكشن أجنبي
+// دالة فلترة الممثلين داخل أكشن أجنبي
 function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');

@@ -305,11 +305,51 @@ function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
-    const actionMovies = movies.filter(item => item.category === 'foreign-action');
-    
+    const actionMovies = movies.filter(item => item.category === 'foreign-act');
+    const moviesGrid = document.getElementById('moviesGrid') || document.querySelector('.movies-grid');
+
     if (actorName === 'all') {
-        displayMovies(actionMovies);
+        // عرض كروت السلاسل التسعة عند الضغط على زرار الكل
+        moviesGrid.innerHTML = `
+            <div class="movie-card" onclick="openSeries('fast-and-furious')">
+                <img src="fast-and-furious.jpg" alt="السرعة والغضب">
+                <h3>سلسلة السرعة والغضب</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('matrix')">
+                <img src="matrix.jpg" alt="الماتريكس">
+                <h3>سلسلة الماتريكس</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('transformers')">
+                <img src="transformers.jpg" alt="الترانسفورمارز">
+                <h3>سلسلة الترانسفورمارز</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('terminator')">
+                <img src="terminator.jpg" alt="المبيد">
+                <h3>سلسلة المبيد</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('avengers')">
+                <img src="avengers.jpg" alt="المنتقمون">
+                <h3>سلسلة المنتقمون</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('captain-america')">
+                <img src="captain-america.jpg" alt="كابتن أمريكا">
+                <h3>سلسلة كابتن أمريكا</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('spider-man')">
+                <img src="spider-man.jpg" alt="سبايدر مان">
+                <h3>سلسلة سبايدر مان</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('iron-man')">
+                <img src="iron-man.jpg" alt="آيرون مان">
+                <h3>سلسلة آيرون مان</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('john-wick')">
+                <img src="john-wick.jpg" alt="جون ويك">
+                <h3>سلسلة جون ويك</h3>
+            </div>
+        `;
     } else {
+        // تصفية وعرض أفلام الممثل المختار عادي
         const filtered = actionMovies.filter(item => item.actor === actorName);
         displayMovies(filtered);
     }

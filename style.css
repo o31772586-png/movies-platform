@@ -493,4 +493,165 @@ body {
     width: 100% !important;
     background: #141414 !important;
 }
+/* تنسيق الفوتر (Footer) ستايل Netflix */
+.site-footer {
+    background-color: #0b0b0b;
+    color: #8c8c8c;
+    border-top: 2px solid #222;
+    padding: 50px 5% 30px;
+    margin-top: 60px;
+    font-size: 14px;
+    direction: rtl;
+}
 
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-top {
+    margin-bottom: 35px;
+    border-bottom: 1px solid #1f1f1f;
+    padding-bottom: 20px;
+}
+
+.footer-logo {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+}
+
+.footer-logo span {
+    color: #e50914;
+}
+
+.footer-tagline {
+    color: #999;
+    font-size: 14px;
+    margin: 0;
+}
+
+.footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer-column h4 {
+    color: #e5e5e5;
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    border-right: 3px solid #e50914;
+    padding-right: 10px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #8c8c8c;
+    text-decoration: none;
+    transition: color 0.2s ease, padding-right 0.2s ease;
+    display: inline-block;
+}
+
+.footer-column ul li a:hover {
+    color: #e50914;
+    padding-right: 5px;
+}
+
+.footer-bottom {
+    border-top: 1px solid #1f1f1f;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.footer-bottom strong {
+    color: #e50914;
+}
+
+.footer-region {
+    background: #181818;
+    border: 1px solid #333;
+    padding: 5px 12px;
+    border-radius: 4px;
+    color: #ccc;
+}
+
+/* تنسيق النافذة المنبثقة للمعلومات (Info Modal) */
+.info-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    direction: rtl;
+}
+
+.info-modal-content {
+    background-color: #141414;
+    border: 1px solid #333;
+    border-top: 4px solid #e50914;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    padding: 25px 30px;
+    color: #e5e5e5;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+    animation: fadeInModal 0.25s ease;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-info-btn {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-info-btn:hover {
+    color: #e50914;
+}
+
+.info-modal-content h2 {
+    margin-top: 0;
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.info-modal-body {
+    line-height: 1.8;
+    color: #bbb;
+    font-size: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+}

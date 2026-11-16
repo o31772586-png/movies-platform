@@ -301,57 +301,52 @@ if (backToSeasons) {
 
 // التشغيل الأولي للمنصة
 displayMovies(movies);
+// دالة فلترة التصنيفات العامة
+document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.getAttribute('data-category');
+        const moviesGrid = document.getElementById('moviesGrid');
+        const seriesGrid = document.getElementById('seriesGrid');
+        const actorsBar = document.getElementById('actorsFilterBar');
+
+        if (actorsBar) actorsBar.style.display = 'none';
+        if (seriesGrid) seriesGrid.style.display = 'none';
+        if (moviesGrid) moviesGrid.style.display = 'grid';
+
+        if (category === 'foreign-action') {
+            if (actorsBar) actorsBar.style.display = 'flex';
+            const actionMovies = movies.filter(item => item.category === 'foreign-action');
+            displayMovies(actionMovies);
+        } else if (category === 'all') {
+            displayMovies(movies);
+        } else {
+            const filtered = movies.filter(item => item.category === category);
+            displayMovies(filtered);
+        }
+    });
+});
+
+// دالة فلترة الممثلين وزرار الكل الخاص بأكشن أجنبي
 function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
-    // التصنيف الصح المطابق لـ index.html هو foreign-action
     const actionMovies = movies.filter(item => item.category === 'foreign-action');
     const moviesGrid = document.getElementById('moviesGrid');
-
-    if (!moviesGrid) return;
+    const seriesGrid = document.getElementById('seriesGrid');
 
     if (actorName === 'all') {
-        // عرض سلاسل الأفلام التسعة مباشرة بكل فخامة
-        moviesGrid.innerHTML = `
-            <div class="movie-card" onclick="openSeries('fast-and-furious')">
-                <img src="fast-and-furious.jpg" alt="السرعة والغضب">
-                <h3>سلسلة السرعة والغضب</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('matrix')">
-                <img src="matrix.jpg" alt="الماتريكس">
-                <h3>سلسلة الماتريكس</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('transformers')">
-                <img src="transformers.jpg" alt="الترانسفورمارز">
-                <h3>سلسلة الترانسفورمارز</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('terminator')">
-                <img src="terminator.jpg" alt="المبيد">
-                <h3>سلسلة المبيد</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('avengers')">
-                <img src="avengers.jpg" alt="المنتقمون">
-                <h3>سلسلة المنتقمون</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('captain-america')">
-                <img src="captain-america.jpg" alt="كابتن أمريكا">
-                <h3>سلسلة كابتن أمريكا</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('spider-man')">
-                <img src="spider-man.jpg" alt="سبايدر مان">
-                <h3>سلسلة سبايدر مان</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('iron-man')">
-                <img src="iron-man.jpg" alt="آيرون مان">
-                <h3>سلسلة آيرون مان</h3>
-            </div>
-            <div class="movie-card" onclick="openSeries('john-wick')">
-                <img src="john-wick.jpg" alt="جون ويك">
-                <h3>سلسلة جون ويك</h3>
-            </div>
-        `;
+        // إظهار السلاسل هنا فقط وإخفاء الأفلام العادية
+        if (seriesGrid) seriesGrid.style.display = 'grid';
+        if (moviesGrid) moviesGrid.style.display = 'none';
     } else {
+        // إخفاء السلاسل وعرض أفلام الممثل
+        if (seriesGrid) seriesGrid.style.display = 'none';
+        if (moviesGrid) moviesGrid.style.display = 'grid';
+        
         const filtered = actionMovies.filter(item => item.actor === actorName);
         displayMovies(filtered);
     }

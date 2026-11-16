@@ -301,55 +301,28 @@ if (backToSeasons) {
 
 // التشغيل الأولي للمنصة
 displayMovies(movies);
+// مصفوفة سلاسل الأفلام اللي هتظهر عند الضغط على الكل
+const movieSeriesList = [
+    { title: "سلسلة السرعة والغضب", image: "fast-and-furious.jpg", category: "foreign-act", actor: "all-series", link: "fast-and-furious" },
+    { title: "سلسلة الماتريكس", image: "matrix.jpg", category: "foreign-act", actor: "all-series", link: "matrix" },
+    { title: "سلسلة الترانسفورمارز", image: "transformers.jpg", category: "foreign-act", actor: "all-series", link: "transformers" },
+    { title: "سلسلة المبيد", image: "terminator.jpg", category: "foreign-act", actor: "all-series", link: "terminator" },
+    { title: "سلسلة المنتقمون", image: "avengers.jpg", category: "foreign-act", actor: "all-series", link: "avengers" },
+    { title: "سلسلة كابتن أمريكا", image: "captain-america.jpg", category: "foreign-act", actor: "all-series", link: "captain-america" },
+    { title: "سلسلة سبايدر مان", image: "spider-man.jpg", category: "foreign-act", actor: "all-series", link: "spider-man" },
+    { title: "سلسلة آيرون مان", image: "iron-man.jpg", category: "foreign-act", actor: "all-series", link: "iron-man" },
+    { title: "سلسلة جون ويك", image: "john-wick.jpg", category: "foreign-act", actor: "all-series", link: "john-wick" }
+];
+
 function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
     const actionMovies = movies.filter(item => item.category === 'foreign-act');
-    const moviesGrid = document.getElementById('moviesGrid') || document.querySelector('.movies-grid');
 
     if (actorName === 'all') {
-        // لو مش ظاهر حاجة، تأكد إن العنصر موجود وبنحط الكروت جواه مباشرة
-        if (moviesGrid) {
-            moviesGrid.innerHTML = `
-                <div class="movie-card" onclick="openSeries('fast-and-furious')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="fast-and-furious.jpg" alt="السرعة والغضب" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة السرعة والغضب</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('matrix')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="matrix.jpg" alt="الماتريكس" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة الماتريكس</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('transformers')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="transformers.jpg" alt="الترانسفورمارز" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة الترانسفورمارز</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('terminator')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="terminator.jpg" alt="المبيد" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة المبيد</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('avengers')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="avengers.jpg" alt="المنتقمون" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة المنتقمون</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('captain-america')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="captain-america.jpg" alt="كابتن أمريكا" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة كابتن أمريكا</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('spider-man')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="spider-man.jpg" alt="سبايدر مان" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة سبايدر مان</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('iron-man')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="iron-man.jpg" alt="آيرون مان" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة آيرون مان</h3>
-                </div>
-                <div class="movie-card" onclick="openSeries('john-wick')" style="cursor:pointer; text-align:center; margin:10px;">
-                    <img src="john-wick.jpg" alt="جون ويك" style="width:100%; border-radius:8px;">
-                    <h3>سلسلة جون ويك</h3>
-                </div>
-            `;
-        }
+        // عرض السلاسل باستخدام دالة العرض الأساسية للمنصة عشان تضمن إنها تظهر بنفس شكل كروت الأفلام
+        displayMovies(movieSeriesList);
     } else {
         const filtered = actionMovies.filter(item => item.actor === actorName);
         displayMovies(filtered);

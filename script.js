@@ -331,3 +331,60 @@ function filterByActor(actorName, btnElement) {
         displayMovies(actionMovies);
     }
 }
+// محتوى الصفحات القانونية والمساعدة عند الضغط على روابط الفوتر
+const footerPagesContent = {
+    terms: {
+        title: "شروط الاستخدام (Terms of Use)",
+        body: "مرحباً بك في منصة Cima Hub. باستخدامك للمنصة فإنك توافق على استخدام المحتوى المتاح للمشاهدة الشخصية فقط. يُمنع إعادة بيع أو استغلال الروابط بشكل تجاري أو محاولة إلحاق الضرر بخوادم العرض."
+    },
+    privacy: {
+        title: "سياسة الخصوصية (Privacy Policy)",
+        body: "نحن نحترم خصوصيتك بالكامل. منصة Cima Hub لا تطلب منك أي بيانات بنكية أو معلومات شخصية حساسة للمشاهدة، ويتم حفظ تفضيلاتك محلياً على متصفحك لتحسين تجربة التصفح فقط."
+    },
+    cookies: {
+        title: "إعدادات ملفات تعريف الارتباط (Cookies)",
+        body: "تستخدم المنصة ملفات تعريف ارتباط أساسية وتخزين محلي (Local Storage) لتذكر إعدادات العرض وتسهيل سرعة تحميل الواجهة."
+    },
+    legal: {
+        title: "المعلومات القانونية (Legal Notices)",
+        body: "منصة Cima Hub هي واجهة عرض وتنظيم للمحتوى المرئي، وجميع العلامات التجارية وأسماء الأعمال الفنية مملوكة لأصحابها الأصليين."
+    },
+    faq: {
+        title: "مركز المساعدة والأسئلة الشائعة (FAQ)",
+        body: "• <b>الفيديو لا يعمل؟</b> تأكد من اتصالك بالإنترنت أو جرب تحديث الصفحة (F5).<br>• <b>الجودة ضعيفة؟</b> يمكنك تغيير جودة الفيديو من علامة الترس داخل مشغل الفيديو مباشرة."
+    },
+    contact: {
+        title: "اتصل بنا (Contact Us)",
+        body: "للاستفسارات التقنية أو الإبلاغ عن رابط لا يعمل، يمكنك التواصل مع إدارة المنصة عبر البريد الإلكتروني الرسمي أو صفحات التواصل الخاصة بنا."
+    },
+    devices: {
+        title: "طرق المشاهدة والأجهزة المدعومة",
+        body: "المنصة متوافقة بالكامل وتعمل بسلاسة على جميع الأجهزة: الهواتف الذكية (Android و iOS)، أجهزة الكمبيوتر واللابتوب، الشاشات الذكية (Smart TV)، والأجهزة اللوحية."
+    },
+    about: {
+        title: "من نحن (About Us)",
+        body: "Cima Hub هي منصة ترفيهية عربية تهدف لتقديم تجربة مشاهدة عصرية وسريعة بتصميم مستوحى من كبرى المنصات العالمية وبدون أي تعقيدات."
+    },
+    dmca: {
+        title: "إخلاء مسؤولية حقوق الملكية (DMCA)",
+        body: "المنصة لا تستضيف أي ملفات فيديو على خوادمها الخاصة، وإنما تقوم بتضمين روابط متاحة للعامة من منصات خارجية مثل YouTube و Google Drive."
+    },
+    request: {
+        title: "طلب فيلم أو مسلسل جديد",
+        body: "هل تبحث عن فيلم أو مسلسل معين غير موجود في القائمة؟ أرسل اسم العمل وسنقوم بإضافته في أقرب تحديث للمنصة!"
+    }
+};
+
+function openInfoModal(pageKey) {
+    const data = footerPagesContent[pageKey];
+    if (!data) return;
+    document.getElementById("infoModalTitle").innerText = data.title;
+    document.getElementById("infoModalBody").innerHTML = data.body;
+    document.getElementById("infoModal").style.display = "flex";
+}
+
+function closeInfoModal(event, forceClose = false) {
+    if (forceClose || event.target.id === "infoModal") {
+        document.getElementById("infoModal").style.display = "none";
+    }
+}

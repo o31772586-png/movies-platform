@@ -31,6 +31,7 @@ const movies = [
                 title: "الموسم الأول",
                 totalEpisodes: 25,
                 episodes: [
+                    { ep: 1, title: "الحلقة 1", link: "https://drive.google.com/file/d/12ylzmG1vCa2zhm5KoBI1KBTyTUeH7Pyl/preview" },
                     { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
                     { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
                     { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },

@@ -309,7 +309,6 @@ function filterByActor(actorName, btnElement) {
     const moviesGrid = document.getElementById('moviesGrid') || document.querySelector('.movies-grid');
 
     if (actorName === 'all') {
-        // عرض كروت السلاسل التسعة عند الضغط على زرار الكل
         moviesGrid.innerHTML = `
             <div class="movie-card" onclick="openSeries('fast-and-furious')">
                 <img src="fast-and-furious.jpg" alt="السرعة والغضب">
@@ -349,7 +348,6 @@ function filterByActor(actorName, btnElement) {
             </div>
         `;
     } else {
-        // تصفية وعرض أفلام الممثل المختار عادي
         const filtered = actionMovies.filter(item => item.actor === actorName);
         displayMovies(filtered);
     }

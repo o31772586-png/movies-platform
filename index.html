@@ -68,7 +68,45 @@
         <!-- شبكة عرض الأفلام -->
         <div class="movies-grid" id="moviesGrid"></div>
     </main>
-
+<!-- شبكة سلاسل الأفلام (تظهر عند الضغط على زرار الكل) -->
+        <div class="movies-grid" id="seriesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div class="movie-card" onclick="openSeries('fast-and-furious')" style="cursor:pointer;">
+                <img src="fast-and-furious.jpg" alt="Fast & Furious" style="width:100%; border-radius:8px;">
+                <h3>Fast & Furious Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('matrix')" style="cursor:pointer;">
+                <img src="matrix.jpg" alt="The Matrix" style="width:100%; border-radius:8px;">
+                <h3>The Matrix Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('transformers')" style="cursor:pointer;">
+                <img src="transformers.jpg" alt="Transformers" style="width:100%; border-radius:8px;">
+                <h3>Transformers Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('terminator')" style="cursor:pointer;">
+                <img src="terminator.jpg" alt="Terminator" style="width:100%; border-radius:8px;">
+                <h3>Terminator Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('avengers')" style="cursor:pointer;">
+                <img src="avengers.jpg" alt="Avengers" style="width:100%; border-radius:8px;">
+                <h3>Avengers Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('captain-america')" style="cursor:pointer;">
+                <img src="captain-america.jpg" alt="Captain America" style="width:100%; border-radius:8px;">
+                <h3>Captain America Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('spider-man')" style="cursor:pointer;">
+                <img src="spider-man.jpg" alt="Spider-Man" style="width:100%; border-radius:8px;">
+                <h3>Spider-Man Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('iron-man')" style="cursor:pointer;">
+                <img src="iron-man.jpg" alt="Iron Man" style="width:100%; border-radius:8px;">
+                <h3>Iron Man Series</h3>
+            </div>
+            <div class="movie-card" onclick="openSeries('john-wick')" style="cursor:pointer;">
+                <img src="john-wick.jpg" alt="John Wick" style="width:100%; border-radius:8px;">
+                <h3>John Wick Series</h3>
+            </div>
+        </div>
     <!-- نافذة العرض للأفلام (Modal) -->
     <div class="video-modal" id="videoModal" style="display: none;">
         <div class="modal-content">

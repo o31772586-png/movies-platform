@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم Cima Hub | إضافة تلقائية</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0f1014; color: #fff; padding: 20px; max-width: 700px; margin: auto; }
+        .card { background: #1a1c24; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        h2 { color: #e50914; margin-top: 0; }
+        .row { display: flex; gap: 10px; margin-bottom: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #252833; color: #fff; font-size: 15px; box-sizing: border-box; }
+        button { background: #e50914; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #b20710; }
+        .btn-search { background: #01b4e4; }
+        .btn-search:hover { background: #0090b8; }
+        .preview { display: flex; gap: 20px; background: #252833; padding: 15px; border-radius: 8px; margin-bottom: 15px; align-items: center; }
+        .preview img { width: 90px; border-radius: 6px; }
+        label { display: block; margin-bottom: 5px; color: #aaa; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🔍 1. جلب بيانات الفيلم/المسلسل من TMDB</h2>
+        <div class="row">
+            <select id="searchType" style="width: 35%;">
+                <option value="movie">فيلم (Movie)</option>
+                <option value="tv">مسلسل (TV Show)</option>
+            </select>
+            <input type="text" id="searchQuery" placeholder="اكتب اسم الفيلم بالإنجليزي أو العربي (مثلاً: Inception)">
+            <button class="btn-search" onclick="searchTMDB()">بحث</button>
+        </div>
+
+        <div id="previewBox" class="preview" style="display: none;">
+            <img id="previewImg" src="" alt="Poster">
+            <div>
+                <h3 id="previewTitle" style="margin: 0 0 5px 0;"></h3>
+                <p id="previewYear" style="margin: 0; color: #01b4e4;"></p>
+                <p id="previewOverview" style="font-size: 13px; color: #ccc; margin-top: 8px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🚀 2. إرسال إلى قاعدة بيانات المنصة</h2>
+        
+        <label>اسم العمل (Title):</label>
+        <input type="text" id="finalTitle" style="margin-bottom: 12px;">
+
+        <div class="row">
+            <div style="width: 50%;">
+                <label>التصنيف في الموقع (Category):</label>
+                <select id="finalCategory">
+                    <option value="foreign-movies">أفلام أجنبي (foreign-movies)</option>
+                    <option value="arabic-movies">أفلام عربي (arabic-movies)</option>
+                    <option value="foreign-series">مسلسلات أجنبي (foreign-series)</option>
+                    <option value="anime-series">مسلسلات أنمي (anime-series)</option>
+                    <option value="cartoons">كرتون (cartoons)</option>
+                </select>
+            </div>
+            <div style="width: 50%;">
+                <label>البادج (Badge):</label>
+                <input type="text" id="finalBadge" placeholder="مثلاً: أجنبي VIP أو أنمي">
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="width: 70%;">
+                <label>رابط البوستر (تم جلبه تلقائياً):</label>
+                <input type="text" id="finalImage">
+            </div>
+            <div style="width: 30%;">
+                <label>سنة الإنتاج (Year):</label>
+                <input type="text" id="finalYear">
+            </div>
+        </div>
+
+        <label>رابط المشاهدة أو كود الفيديو (Google Drive / YouTube ID):</label>
+        <input type="text" id="finalLink" placeholder="حط الرابط هنا" style="margin-bottom: 15px;">
+
+        <button onclick="saveToSheet()" style="width: 100%;" id="saveBtn">حفظ ونشر في المنصة فوراً ✨</button>
+    </div>
+
+    <script>
+        const TMDB_KEY = "1190953f64cd3bf9ad1ae1653306b372";
+        const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwFzgfH4IhvCdreRibUq7wtd3swHxDP9U2KZH_Y_Bsths9pzGwUmyBzUQcUzCYV7FI/exec";
+
+        async function searchTMDB() {
+            const query = document.getElementById('searchQuery').value;
+            const type = document.getElementById('searchType').value;
+            if (!query) return alert("اكتب اسم الفيلم الأول يا وحش!");
+
+            const url = `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_KEY}&query=${encodeURIComponent(query)}&language=ar`;
+            
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.results && data.results.length > 0) {
+                    const item = data.results[0]; // أول وأدق نتيجة
+                    const title = item.title || item.name;
+                    const date = item.release_date || item.first_air_date || "";
+                    const year = date.split("-")[0];
+                    const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : "";
+
+                    // عرض المعاينة
+                    document.getElementById('previewBox').style.display = 'flex';
+                    document.getElementById('previewImg').src = poster;
+                    document.getElementById('previewTitle').textContent = title;
+                    document.getElementById('previewYear').textContent = `سنة الإنتاج: ${year} | التقييم: ⭐ ${item.vote_average.toFixed(1)}`;
+                    document.getElementById('previewOverview').textContent = item.overview || "لا يوجد وصف متاح بالعربية.";
+
+                    // تعبئة الخانات تلقائياً
+                    document.getElementById('finalTitle').value = title;
+                    document.getElementById('finalImage').value = poster;
+                    document.getElementById('finalYear').value = year;
+                } else {
+                    alert("ملقتش نتائج بالاسم ده، جرب تكتبه بالإنجليزي!");
+                }
+            } catch (err) {
+                alert("حصل خطأ في الاتصال بـ TMDB");
+            }
+        }
+
+        async function saveToSheet() {
+            const btn = document.getElementById('saveBtn');
+            const isSeries = document.getElementById('searchType').value === 'tv';
+            
+            const payload = {
+                id: "id_" + Date.now(),
+                title: document.getElementById('finalTitle').value,
+                category: document.getElementById('finalCategory').value,
+                badge: document.getElementById('finalBadge').value,
+                image: document.getElementById('finalImage').value,
+                year: document.getElementById('finalYear').value,
+                isSeries: isSeries,
+                seasons: isSeries ? "[]" : document.getElementById('finalLink').value
+            };
+
+            if (!payload.title || !payload.image) return alert("ابحث عن الفيلم الأول عشان البيانات تتملي!");
+
+            btn.textContent = "جاري النشر في جوجل شيت...";
+            btn.disabled = true;
+
+            try {
+                await fetch(SHEET_API_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                alert("تم نشر العمل بنجاح يا عالمي! اعمل تحديث للموقع وهتلاقيه ظهر 🔥");
+                btn.textContent = "حفظ ونشر في المنصة فوراً ✨";
+                btn.disabled = false;
+            } catch (err) {
+                alert("حصل مشكلة أثناء الحفظ");
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

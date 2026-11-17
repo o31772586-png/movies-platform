@@ -655,49 +655,23 @@ body {
     max-height: 60vh;
     overflow-y: auto;
 }
-/* شريط التنقل العلوي الطبيعي الذي يتحرك مع الشاشة */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 40px;
-    background: rgba(7, 9, 14, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative; /* مش sticky، يعني هيطلع ويختفي مع السكرول عادي جداً */
-    z-index: 100;
-    backdrop-filter: blur(12px);
+/* إزالة أي هوامش أو مسافات بيضاء في بداية الصفحة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* تنسيق اللوجو الدائري الكبير داخل النافبار بالحركة الطبيعية */
-.navbar .logo {
-    display: flex;
-    align-items: center;
+body {
+    background-color: #07090e;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
 }
 
-.navbar .logo img {
-    width: 90px;         /* حجم كبير ومميز يملى العين */
-    height: 90px;        /* دائري متساوي */
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--accent);
-    background: #000;
-    animation: logoGlowPulse 3s infinite ease-in-out;
-    filter: drop-shadow(0 0 10px rgba(229, 9, 20, 0.7));
-    transition: transform 0.3s ease;
-}
-
-.navbar .logo img:hover {
-    transform: scale(1.08) rotate(5deg);
-}
-
-@keyframes logoGlowPulse {
-    0% {
-        box-shadow: 0 0 6px rgba(229, 9, 20, 0.4), 0 0 15px rgba(229, 9, 20, 0.2);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(229, 9, 20, 0.9), 0 0 35px rgba(229, 9, 20, 0.5);
-    }
-    100% {
-        box-shadow: 0 0 6px rgba(229, 9, 20, 0.4), 0 0 15px rgba(229, 9, 20, 0.2);
-    }
+/* جعل قسم العرض أو الصور المتحركة يبدأ مباشرة من أول الشاشة ويملأها */
+.hero-section, .slideshow-container, .main-banner {
+    width: 100%;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }

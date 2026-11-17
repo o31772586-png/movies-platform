@@ -180,7 +180,7 @@
             const type = document.getElementById('searchType').value;
             const isSeries = type === 'tv';
             
-            let seasonsData = "";
+         let seasonsData = "";
             if (isSeries) {
                 const seasonBlocks = document.querySelectorAll('.season-block');
                 if (seasonBlocks.length === 0) {
@@ -188,17 +188,21 @@
                 }
 
                 const structuredSeasons = [];
-                seasonBlocks.forEach((block) => {
+                seasonBlocks.forEach((block, sIndex) => {
                     const sName = block.querySelector('.season-name-input').value.trim();
                     const linksText = block.querySelector('.season-links-input').value.trim();
                     
-                    const eps = linksText ? linksText.split(',').map((link, index) => ({
-                        title: `الحلقة ${index + 1}`,
-                        link: link.trim()
-                    })) : [];
+                    const rawLinks = linksText ? linksText.split(',').map(l => l.trim()).filter(l => l) : [];
+                    const eps = rawLinks.map((link, epIndex) => ({
+                        ep: epIndex + 1,
+                        title: `الحلقة ${epIndex + 1}`,
+                        link: link
+                    }));
 
                     structuredSeasons.push({
-                        season_name: sName,
+                        seasonNumber: sIndex + 1,
+                        title: sName,
+                        totalEpisodes: eps.length,
                         episodes: eps
                     });
                 });

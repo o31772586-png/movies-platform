@@ -1,70 +1,30 @@
-const movies = [
-    {
-        id: "fSkgNXNiHIE",
-        title: "الفيلم اجنبي | Godfather VIP",
-        category: "foreign-drama",
-        badge: "اجنبي VIP",
-        image: "godfather.jpg",
-        year: "1974",
-        isSeries: false
-    }, 
-    {
-        id: "xlTt10NhdeA",
-        title: "Tom and Jerry",
-        category: "cartoons",
-        badge: "كرتون",
-        image: "tom-and-jerry-poster.jpg",
-        year: "2024",
-        isSeries: false
-    },
-    {
-        id: "aot-series",
-        title: "Attack on Titan | هجوم العمالقة",
-        category: "anime-series",
-        badge: "مسلسل أنمي",
-        image: "attack-on-titan.jpg",
-        year: "2013",
-        isSeries: true,
-        seasons: [
-            {
-                seasonNumber: 1,
-                title: "الموسم الأول",
-                totalEpisodes: 25,
-                episodes: [
-                    { ep: 1, title: "الحلقة 1", link: "https://drive.google.com/file/d/12ylzmG1vCa2zhm5KoBI1KBTyTUeH7Pyl/preview" },
-                    { ep: 2, title: "الحلقة 2", link: "EM-W-WBzAbU" },
-                    { ep: 3, title: "الحلقة 3", link: "_nxMHb4dlJA" },
-                    { ep: 4, title: "الحلقة 4", link: "n0h3j0w51bM" },
-                    { ep: 5, title: "الحلقة 5", link: "HOrq4JN5epY" },
-                    { ep: 6, title: "الحلقة 6", link: "WOuJ0kkPGXE" },
-                    { ep: 7, title: "الحلقة 7", link: "vpG_WifRebE" },
-                    { ep: 8, title: "الحلقة 8", link: "sA59KDCGg7o" },
-                    { ep: 9, title: "الحلقة 9", link: "NTs2EFqNLB4" },                   
-                    { ep: 10, title: "الحلقة 10", link: "vsb0-FZdsFg" },
-                   { ep: 11, title: "الحلقة 11", link: "https://drive.google.com/file/d/1Qm1B7acnr7miwfnsBS6tnXC6cEdcD5uD/preview" },
-                ]
-            },
-            {
-                seasonNumber: 2,
-                title: "الموسم الثاني",
-                totalEpisodes: 12,
-                episodes: []
-            },
-            {
-                seasonNumber: 3,
-                title: "الموسم الثالث",
-                totalEpisodes: 22,
-                episodes: []
-            },
-            {
-                seasonNumber: 4,
-                title: "الموسم الرابع",
-                totalEpisodes: 28,
-                episodes: []
-            }
-        ]
+// رابط الـ API السحري الخاص بـ Google Sheets
+const API_URL = "حط_رابط_الـ_Web_App_هنا_بين_العلامتين";
+
+// مصفوفة الأفلام والمسلسلات الديناميكية
+let movies = [];
+
+// دالة لجلب البيانات وعرضها في الموقع أوتوماتيكياً من جوجل شيت
+async function fetchMoviesFromSheet() {
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        
+        // ربط البيانات المستلمة بالمصفوفة العامة
+        movies = data;
+        console.log("تم تحميل البيانات بنجاح من جوجل شيت:", movies);
+
+        // عرض الأفلام في الواجهة فوراً
+        displayMovies(movies);
+    } catch (error) {
+        console.error("حدث خطأ أثناء جلب البيانات من قاعدة البيانات:", error);
     }
-];
+}
+
+// تشغيل جلب البيانات أول ما الصفحة تفتح
+document.addEventListener("DOMContentLoaded", () => {
+    fetchMoviesFromSheet();
+});
 
 // عناصر DOM
 const moviesGrid = document.getElementById('moviesGrid');

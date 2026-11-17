@@ -655,16 +655,38 @@ body {
     max-height: 60vh;
     overflow-y: auto;
 }
-/* تنسيق وتحريك اللوجو الدائري الكبير في النافبار */
+/* تثبيت النافبار الطبيعية بدون تأثير */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: rgba(7, 9, 14, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+}
+
+/* تنسيق اللوجو العائم الكبير والمكبر بدون التأثير على الخلفية أو النافبار */
+.navbar .logo {
+    position: relative;
+    z-index: 102;
+}
+
 .navbar .logo img {
-    width: 65px;
-    height: 65px;
+    width: 110px;       /* كبرناه براحتنا بالحجم اللي يملى العين */
+    height: 110px;      /* دائري متساوي */
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--accent);
-    vertical-align: middle;
+    border: 3px solid var(--accent);
+    background: #000;
+    position: absolute; /* يخليه عائم ومش بيضغط على عناصر النافبار */
+    top: -25px;         /* طلعه لفوق شوية عشان يبرز بشكل جامد فوق الخط الفاصل */
+    right: 0;           /* مكانه في اليمين (عشان الموقع عربي RTL) */
     animation: logoGlowPulse 3s infinite ease-in-out;
-    filter: drop-shadow(0 0 10px rgba(229, 9, 20, 0.7));
+    filter: drop-shadow(0 0 12px rgba(229, 9, 20, 0.8));
     transition: transform 0.3s ease;
 }
 
@@ -674,12 +696,12 @@ body {
 
 @keyframes logoGlowPulse {
     0% {
-        box-shadow: 0 0 5px rgba(229, 9, 20, 0.4), 0 0 15px rgba(229, 9, 20, 0.2);
+        box-shadow: 0 0 8px rgba(229, 9, 20, 0.4), 0 0 20px rgba(229, 9, 20, 0.2);
     }
     50% {
-        box-shadow: 0 0 20px rgba(229, 9, 20, 0.9), 0 0 35px rgba(229, 9, 20, 0.5);
+        box-shadow: 0 0 25px rgba(229, 9, 20, 0.9), 0 0 45px rgba(229, 9, 20, 0.5);
     }
     100% {
-        box-shadow: 0 0 5px rgba(229, 9, 20, 0.4), 0 0 15px rgba(229, 9, 20, 0.2);
+        box-shadow: 0 0 8px rgba(229, 9, 20, 0.4), 0 0 20px rgba(229, 9, 20, 0.2);
     }
 }

@@ -28,7 +28,7 @@
                 <option value="movie">فيلم (Movie)</option>
                 <option value="tv">مسلسل (TV Show)</option>
             </select>
-            <input type="text" id="searchQuery" placeholder="اكتب اسم الفيلم بالإنجليزي أو العربي (مثلاً: Inception)">
+            <input type="text" id="searchQuery" placeholder="اكتب اسم العمل بالإنجليزي أو العربي (مثلاً: Game of Thrones)">
             <button class="btn-search" onclick="searchTMDB()">بحث</button>
         </div>
 
@@ -51,18 +51,18 @@
         <div class="row">
             <div style="width: 50%;">
                 <label>التصنيف في الموقع (Category):</label>
-                        <select id="finalCategory">
-                        <option value="action-foreign">أكشن أجنبي (action-foreign)</option>
-                       <option value="drama-foreign">دراما أجنبي (drama-foreign)</option>
-                        <option value="arabic-movies">أفلام عربي (arabic-movies)</option>
-                        <option value="anime-movies">أفلام أنمي (anime-movies)</option>
-                        <option value="cartoons">أفلام كرتون (cartoons)</option>
-                        <option value="foreign-series">مسلسلات أجنبي (foreign-series)</option>
-                        <option value="arabic-series">مسلسلات عربي (arabic-series)</option>
-                        <option value="anime-series">مسلسلات أنمي (anime-series)</option>
-                        <option value="horror-foreign">رعب أجنبي (horror-foreign)</option>
-                        <option value="romance-foreign">رومانسي أجنبي (romance-foreign)</option>
-                    </select>
+                <select id="finalCategory">
+                    <option value="action-foreign">أكشن أجنبي (action-foreign)</option>
+                    <option value="drama-foreign">دراما أجنبي (drama-foreign)</option>
+                    <option value="arabic-movies">أفلام عربي (arabic-movies)</option>
+                    <option value="anime-movies">أفلام أنمي (anime-movies)</option>
+                    <option value="cartoons">أفلام كرتون (cartoons)</option>
+                    <option value="foreign-series">مسلسلات أجنبي (foreign-series)</option>
+                    <option value="arabic-series">مسلسلات عربي (arabic-series)</option>
+                    <option value="anime-series">مسلسلات أنمي (anime-series)</option>
+                    <option value="horror-foreign">رعب أجنبي (horror-foreign)</option>
+                    <option value="romance-foreign">رومانسي أجنبي (romance-foreign)</option>
+                </select>
             </div>
             <div style="width: 50%;">
                 <label>البادج (Badge):</label>
@@ -81,40 +81,67 @@
             </div>
         </div>
 
-      <!-- مكان رابط الفيديو العادي (للأفلام) -->
+        <!-- مكان رابط الفيديو العادي (للأفلام) -->
         <div id="normalLinkBox" style="margin-bottom: 15px;">
             <label>رابط المشاهدة أو كود الفيديو (Google Drive / YouTube ID):</label>
             <input type="text" id="finalLink" placeholder="حط الرابط هنا">
         </div>
 
-        <!-- قسم خاص بالمسلسلات والمواسم (يظهر تلقائياً عند اختيار مسلسل) -->
+        <!-- قسم خاص بالمسلسلات والمواسم المتعددة -->
         <div id="seriesSection" style="display: none; background: #252833; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #e50914;">
-            <label style="color: #e50914; font-weight: bold;">📺 إدارة مواسم وحلقات المسلسل:</label>
-            <p style="font-size: 12px; color: #aaa; margin-top: 2px;">اكتب روابط الحلقات مفصولة بعلامة فاصلة (,) وسيتم جدولتها تلقائياً.</p>
+            <label style="color: #e50914; font-weight: bold; font-size: 16px;">📺 إدارة مواسم وحلقات المسلسل (متعدد المواسم):</label>
+            <p style="font-size: 12px; color: #aaa; margin-top: 2px;">اضغط "إضافة موسم جديد" لكل موسم، واكتب روابط حلقاته مفصولة بـ (,)</p>
             
-            <label>رقم الموسم (مثلاً: الموسم الأول - Season 1):</label>
-            <input type="text" id="seasonName" value="الموسم الأول" style="margin-bottom: 10px;">
+            <!-- حاوية المواسم الديناميكية -->
+            <div id="seasonsContainer"></div>
             
-            <label>روابط الحلقات:</label>
-            <textarea id="episodesLinks" rows="3" placeholder="رابط الحلقة 1, رابط الحلقة 2, رابط الحلقة 3"></textarea>
+            <button type="button" onclick="addSeasonBlock()" style="background: #01b4e4; margin-top: 10px; width: 100%; padding: 10px; font-size: 14px;">➕ إضافة موسم جديد</button>
         </div>
+
         <button onclick="saveToSheet()" style="width: 100%;" id="saveBtn">حفظ ونشر في المنصة فوراً ✨</button>
     </div>
 
     <script>
         // إظهار أو إخفاء خانة المسلسلات حسب نوع العمل المختار
-   document.getElementById('searchType').addEventListener('change', function() {
-       const isTv = this.value === 'tv';
-       document.getElementById('seriesSection').style.display = isTv ? 'block' : 'none';
-       document.getElementById('normalLinkBox').style.display = isTv ? 'none' : 'block';
-   });
+        document.getElementById('searchType').addEventListener('change', function() {
+            const isTv = this.value === 'tv';
+            document.getElementById('seriesSection').style.display = isTv ? 'block' : 'none';
+            document.getElementById('normalLinkBox').style.display = isTv ? 'none' : 'block';
+            
+            // لو فتح المسلسلات لأول مرة ومافيش مواسم، نضيف موسم افتراضي تلقائي
+            if (isTv && document.getElementById('seasonsContainer').children.length === 0) {
+                addSeasonBlock("الموسم الأول");
+            }
+        });
+
+        // دالة لإضافة صندوق موسم جديد ديناميكياً
+        function addSeasonBlock(defaultName = "") {
+            const container = document.getElementById('seasonsContainer');
+            const seasonIndex = container.children.length + 1;
+            const seasonName = defaultName || `الموسم ${seasonIndex}`;
+
+            const block = document.createElement('div');
+            block.className = 'season-block';
+            block.style.cssText = "background: #1a1c24; padding: 12px; border-radius: 6px; margin-top: 10px; border: 1px solid #333;";
+            
+            block.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <input type="text" class="season-name-input" value="${seasonName}" style="width: 70%; padding: 8px;" placeholder="اسم الموسم (مثلاً: الموسم الأول)">
+                    <button type="button" onclick="this.parentElement.parentElement.remove()" style="background: #b20710; padding: 6px 12px; font-size: 12px; width: 25%;">حذف الموسم</button>
+                </div>
+                <label style="font-size: 12px; color: #aaa;">روابط حلقات هذا الموسم (مفصولة بـ ,):</label>
+                <textarea class="season-links-input" rows="2" placeholder="رابط الحلقة 1, رابط الحلقة 2, ..."></textarea>
+            `;
+            container.appendChild(block);
+        }
+
         const TMDB_KEY = "1190953f64cd3bf9ad1ae1653306b372";
         const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwFzgfH4IhvCdreRibUq7wtd3swHxDP9U2KZH_Y_Bsths9pzGwUmyBzUQcUzCYV7FI/exec";
 
         async function searchTMDB() {
             const query = document.getElementById('searchQuery').value;
             const type = document.getElementById('searchType').value;
-            if (!query) return alert("اكتب اسم الفيلم الأول يا وحش!");
+            if (!query) return alert("اكتب اسم العمل الأول يا وحش!");
 
             const url = `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_KEY}&query=${encodeURIComponent(query)}&language=ar`;
             
@@ -148,39 +175,51 @@
             }
         }
 
-    async function saveToSheet() {
-       const btn = document.getElementById('saveBtn');
-       const type = document.getElementById('searchType').value;
-       const isSeries = type === 'tv';
+        async function saveToSheet() {
+            const btn = document.getElementById('saveBtn');
+            const type = document.getElementById('searchType').value;
+            const isSeries = type === 'tv';
+            
+            let seasonsData = "";
+            if (isSeries) {
+                const seasonBlocks = document.querySelectorAll('.season-block');
+                if (seasonBlocks.length === 0) {
+                    return alert("أضف موسم واحد على الأقل للمسلسل يا وحش!");
+                }
 
-       let seasonsData = "";
-       if (isSeries) {
-           const sName = document.getElementById('seasonName').value;
-           const linksText = document.getElementById('episodesLinks').value;
-           const eps = linksText.split(',').map((link, index) => ({
-               title: `الحلقة ${index + 1}`,
-               link: link.trim()
-           }));
-           const structuredSeasons = [{
-               season_name: sName,
-               episodes: eps
-           }];
-           seasonsData = JSON.stringify(structuredSeasons);
-       } else {
-           seasonsData = document.getElementById('finalLink').value;
-       }
+                const structuredSeasons = [];
+                seasonBlocks.forEach((block) => {
+                    const sName = block.querySelector('.season-name-input').value.trim();
+                    const linksText = block.querySelector('.season-links-input').value.trim();
+                    
+                    const eps = linksText ? linksText.split(',').map((link, index) => ({
+                        title: `الحلقة ${index + 1}`,
+                        link: link.trim()
+                    })) : [];
 
-       const payload = {
-           id: "id_" + Date.now(),
-           title: document.getElementById('finalTitle').value,
-           category: document.getElementById('finalCategory').value,
-           badge: document.getElementById('finalBadge').value,
-           image: document.getElementById('finalImage').value,
-           year: document.getElementById('finalYear').value,
-           isSeries: isSeries,
-           seasons: seasonsData
-       };
-            if (!payload.title || !payload.image) return alert("ابحث عن الفيلم الأول عشان البيانات تتملي!");
+                    structuredSeasons.push({
+                        season_name: sName,
+                        episodes: eps
+                    });
+                });
+
+                seasonsData = JSON.stringify(structuredSeasons);
+            } else {
+                seasonsData = document.getElementById('finalLink').value;
+            }
+
+            const payload = {
+                id: "id_" + Date.now(),
+                title: document.getElementById('finalTitle').value,
+                category: document.getElementById('finalCategory').value,
+                badge: document.getElementById('finalBadge').value,
+                image: document.getElementById('finalImage').value,
+                year: document.getElementById('finalYear').value,
+                isSeries: isSeries,
+                seasons: seasonsData
+            };
+
+            if (!payload.title || !payload.image) return alert("ابحث عن العمل الأول عشان البيانات تتملي!");
 
             btn.textContent = "جاري النشر في جوجل شيت...";
             btn.disabled = true;
@@ -192,7 +231,7 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                alert("تم نشر العمل بنجاح يا عالمي! اعمل تحديث للموقع وهتلاقيه ظهر 🔥");
+                alert("تم نشر المسلسل بكل مواسمه بنجاح يا عالمي! اعمل تحديث للموقع وهتلاقيه ظهر 🔥");
                 btn.textContent = "حفظ ونشر في المنصة فوراً ✨";
                 btn.disabled = false;
             } catch (err) {

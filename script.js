@@ -1,27 +1,39 @@
-// رابط الـ API السحري الخاص بـ Google Sheets
-const API_URL = "https://script.google.com/macros/s/AKfycbwFzgfH4IhvCdreRibUq7wtd3swHxDP9U2KZH_Y_Bsths9pzGwUmyBzUQcUzCYV7FI/exec";
+// رابط الـ API الخاص بـ Google Sheets
+const API_URL = "رابط_الـ_Web_App_تاعك_هنا";
 
-// مصفوفة الأفلام والمسلسلات الديناميكية
 let movies = [];
 
-// دالة لجلب البيانات وعرضها في الموقع أوتوماتيكياً من جوجل شيت
 async function fetchMoviesFromSheet() {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
         
-        // ربط البيانات المستلمة بالمصفوفة العامة
-        movies = data;
-        console.log("تم تحميل البيانات بنجاح من جوجل شيت:", movies);
+        // معالجة البيانات وتحويل النصوص الخاصة بالمسلسلات لمصفوفات حقيقية
+        movies = data.map(movie => {
+            // لو المسلسل فيه مواسم محفوظة كنص JSON، حولها لمصفوفة
+            if (movie.seasons && typeof movie.seasons === 'string' && movie.seasons.trim() !== '') {
+                try {
+                    movie.seasons = JSON.parse(movie.seasons);
+                } catch (e) {
+                    movie.seasons = [];
+                }
+            } else {
+                movie.seasons = [];
+            }
 
-        // عرض الأفلام في الواجهة فوراً
+            // ضبط قيمة isSeries لتعمل بشكل صحيح
+            movie.isSeries = (movie.isSeries === 'true' || movie.isSeries === true);
+
+            return movie;
+        });
+
+        console.log("تم تحميل الأفلام والمسلسلات بنجاح:", movies);
         displayMovies(movies);
     } catch (error) {
-        console.error("حدث خطأ أثناء جلب البيانات من قاعدة البيانات:", error);
+        console.error("حدث خطأ أثناء جلب البيانات:", error);
     }
 }
 
-// تشغيل جلب البيانات أول ما الصفحة تفتح
 document.addEventListener("DOMContentLoaded", () => {
     fetchMoviesFromSheet();
 });

@@ -188,11 +188,26 @@ function openSeriesModal(series) {
     seriesModal.style.display = 'flex';
 }
 
-// دالة عرض مواسم مسلسلات الأكشن من الـ HTML الخارجي (openSeries)
+// دالة عرض مواسم أو أفلام السلاسل المربوطة بقاعدة البيانات
 function openSeries(seriesKey) {
-    // يمكنك ربطها ببيانات المسلسلات الخارجية لو وجدت
+    // تصفية الأفلام بناءً على السلسلة أو الكاتيجوري المطابق لمفتاح الكارت
+    const filteredMovies = movies.filter(movie => movie.series === seriesKey || movie.category === seriesKey);
+    
+    const moviesGrid = document.getElementById('moviesGrid');
+    const seriesGrid = document.getElementById('seriesGrid');
+    const actorsBar = document.getElementById('actorsFilterBar');
+    
+    if (seriesGrid) seriesGrid.style.display = 'none';
+    if (actorsBar) actorsBar.style.display = 'none';
+    if (moviesGrid) moviesGrid.style.display = 'grid';
+    
+    if (filteredMovies.length === 0) {
+        moviesGrid.innerHTML = `<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 20px;">جاري إيراد وتجهيز أفلام هذه السلسلة في قاعدة البيانات قريباً!</p>`;
+        return;
+    }
+    
+    displayMovies(filteredMovies);
 }
-
 // عرض حلقات الموسم المختار
 function showEpisodes(season, seriesTitle) {
     seasonsContainer.style.display = 'none';

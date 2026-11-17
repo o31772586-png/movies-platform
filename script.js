@@ -1,5 +1,5 @@
 // رابط الـ API السحري الخاص بـ Google Sheets
-const API_URL = "حط_رابط_الـ_Web_App_هنا_بين_العلامتين";
+const API_URL = "https://script.google.com/macros/s/AKfycbwFzgfH4IhvCdreRibUq7wtd3swHxDP9U2KZH_Y_Bsths9pzGwUmyBzUQcUzCYV7FI/exec";
 
 // مصفوفة الأفلام والمسلسلات الديناميكية
 let movies = [];

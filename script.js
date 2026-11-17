@@ -1,5 +1,5 @@
 // رابط الـ API الخاص بـ Google Sheets
-const API_URL = "رابط_الـ_Web_App_تاعك_هنا";
+const API_URL = "https://script.google.com/macros/s/AKfycbwFzgfH4IhvCdreRibUq7wtd3swHxDP9U2KZH_Y_Bsths9pzGwUmyBzUQcUzCYV7FI/exec";
 
 let movies = [];
 

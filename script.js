@@ -213,29 +213,64 @@ function openSeriesModal(series) {
 }
 
 // دالة عرض مواسم أو أفلام السلاسل المربوطة بقاعدة البيانات
+// دالة عرض مواسم أو أفلام السلاسل المربوطة بقاعدة البيانات
 function openSeries(seriesKey) {
-    const filteredMovies = movies.filter(movie =>
-        movie.id === seriesKey ||
-        movie.series === seriesKey ||
-        movie.category === seriesKey ||
-        (seriesKey === 'foreign-action' && movie.category === 'Action') ||
-        (seriesKey === 'Action' && movie.category === 'foreign-action')
-    );
-    
+    const cleanKey = String(seriesKey || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const filteredMovies = movies.filter(movie => {
+        const idClean = String(movie.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const seriesClean = String(movie.series || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const titleClean = String(movie.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        return (
+            movie.id === seriesKey ||
+            movie.series === seriesKey ||
+            movie.category === seriesKey ||
+            (seriesKey === 'foreign-action' && movie.category === 'Action') ||
+            (seriesKey === 'Action' && movie.category === 'foreign-action') ||
+            (cleanKey && (idClean.includes(cleanKey) || seriesClean.includes(cleanKey) || titleClean.includes(cleanKey)))
+        );
+    });
+
     const targetMoviesGrid = document.getElementById('moviesGrid');
     const seriesGrid = document.getElementById('seriesGrid');
     const actorsBar = document.getElementById('actorsFilterBar');
-    
+
     if (seriesGrid) seriesGrid.style.display = 'none';
     if (actorsBar) actorsBar.style.display = 'none';
     if (targetMoviesGrid) targetMoviesGrid.style.display = 'grid';
-    
+
     if (filteredMovies.length === 0) {
         targetMoviesGrid.innerHTML = `<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 20px;">جاري إيراد وتجهيز أفلام هذه السلسلة في قاعدة البيانات قريباً!</p>`;
         return;
     }
-    
-    displayMovies(filteredMovies);
+
+    // استخراج الأفلام أو الحلقات من داخل seasons لعرضها ككروت جاهزة للتشغيل الفوري
+    const expandedItems = [];
+    filteredMovies.forEach(movie => {
+        if (Array.isArray(movie.seasons) && movie.seasons.length > 0) {
+            movie.seasons.forEach(season => {
+                if (Array.isArray(season.episodes) && season.episodes.length > 0) {
+                    season.episodes.forEach(ep => {
+                        if (ep && ep.link) {
+                            expandedItems.push({
+                                id: ep.link,
+                                title: ep.title || movie.title,
+                                badge: movie.badge || 'أكشن أجنبي',
+                                image: movie.image,
+                                year: movie.year,
+                                isSeries: false
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            expandedItems.push(movie);
+        }
+    });
+
+    displayMovies(expandedItems.length > 0 ? expandedItems : filteredMovies);
 }
 
 // عرض حلقات الموسم المختار

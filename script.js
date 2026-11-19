@@ -84,6 +84,23 @@ if (subToggleBtn) {
     });
 }
 
+// دالة مساعدة لاستخراج رابط الفيديو المناسب سواء كان رابط مباشر أو داخل seasons
+function resolveVideoSource(item) {
+    if (item.link && typeof item.link === 'string' && item.link.trim() !== '') {
+        return item.link.trim();
+    }
+    if (Array.isArray(item.seasons) && item.seasons.length > 0) {
+        const firstSeason = item.seasons[0];
+        if (firstSeason && Array.isArray(firstSeason.episodes) && firstSeason.episodes.length > 0) {
+            const firstEp = firstSeason.episodes[0];
+            if (firstEp && firstEp.link) {
+                return firstEp.link.trim();
+            }
+        }
+    }
+    return item.id;
+}
+
 // دالة عرض الكارتات
 function displayMovies(items) {
     if (!moviesGrid) return;
@@ -109,10 +126,11 @@ function displayMovies(items) {
         `;
         
         card.addEventListener('click', () => {
-            if (movie.isSeries) {
+            if (movie.isSeries && Array.isArray(movie.seasons) && movie.seasons.length > 0) {
                 openSeriesModal(movie);
             } else {
-                openVideoPlayer(movie.id, movie.title);
+                const videoSource = resolveVideoSource(movie);
+                openVideoPlayer(videoSource, movie.title);
             }
         });
         
@@ -129,7 +147,7 @@ if (searchInput) {
     });
 }
 
-// فتح مشغل الفيديو الداخلي (دعم كامل ومحدث للديلي موشن ويوتيوب)
+// فتح مشغل الفيديو الداخلي (دعم Google Drive /preview والروابط المباشرة ويوتيوب)
 function openVideoPlayer(sourceId, title) {
     if (!videoModal) return;
     modalTitle.textContent = title;
@@ -153,12 +171,18 @@ function openVideoPlayer(sourceId, title) {
         }
     };
 
-    // لو اللينك يبدأ بـ http أو https (سواء ديلي موشن أو أي رابط مباشر) شغله مباشرة
-    if (sourceId.startsWith('http://') || sourceId.startsWith('https://')) {
-        ensureIframe(sourceId);
+    const cleanSource = String(sourceId || '').trim();
+
+    if (cleanSource.includes('drive.google.com')) {
+        // ضمان تحويل أي رابط درايف لصيغة /preview
+        const drivePreviewUrl = cleanSource.includes('/preview')
+            ? cleanSource
+            : cleanSource.replace(/\/view(\?.*)?$/, '/preview');
+        ensureIframe(drivePreviewUrl);
+    } else if (cleanSource.startsWith('http://') || cleanSource.startsWith('https://')) {
+        ensureIframe(cleanSource);
     } else {
-        // يوتيوب افتراضياً
-        ensureIframe(`https://www.youtube.com/embed/${sourceId}?autoplay=1`);
+        ensureIframe(`https://www.youtube.com/embed/${cleanSource}?autoplay=1`);
     }
 
     videoModal.style.display = 'flex';
@@ -190,24 +214,30 @@ function openSeriesModal(series) {
 
 // دالة عرض مواسم أو أفلام السلاسل المربوطة بقاعدة البيانات
 function openSeries(seriesKey) {
-    // تصفية الأفلام بناءً على السلسلة أو الكاتيجوري المطابق لمفتاح الكارت
-    const filteredMovies = movies.filter(movie => movie.series === seriesKey || movie.category === seriesKey);
+    const filteredMovies = movies.filter(movie =>
+        movie.id === seriesKey ||
+        movie.series === seriesKey ||
+        movie.category === seriesKey ||
+        (seriesKey === 'foreign-action' && movie.category === 'Action') ||
+        (seriesKey === 'Action' && movie.category === 'foreign-action')
+    );
     
-    const moviesGrid = document.getElementById('moviesGrid');
+    const targetMoviesGrid = document.getElementById('moviesGrid');
     const seriesGrid = document.getElementById('seriesGrid');
     const actorsBar = document.getElementById('actorsFilterBar');
     
     if (seriesGrid) seriesGrid.style.display = 'none';
     if (actorsBar) actorsBar.style.display = 'none';
-    if (moviesGrid) moviesGrid.style.display = 'grid';
+    if (targetMoviesGrid) targetMoviesGrid.style.display = 'grid';
     
     if (filteredMovies.length === 0) {
-        moviesGrid.innerHTML = `<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 20px;">جاري إيراد وتجهيز أفلام هذه السلسلة في قاعدة البيانات قريباً!</p>`;
+        targetMoviesGrid.innerHTML = `<p style="color: #9ca3af; grid-column: 1/-1; text-align: center; padding: 20px;">جاري إيراد وتجهيز أفلام هذه السلسلة في قاعدة البيانات قريباً!</p>`;
         return;
     }
     
     displayMovies(filteredMovies);
 }
+
 // عرض حلقات الموسم المختار
 function showEpisodes(season, seriesTitle) {
     seasonsContainer.style.display = 'none';
@@ -274,26 +304,29 @@ document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
         this.classList.add('active');
 
         const category = this.getAttribute('data-category');
-        const moviesGrid = document.getElementById('moviesGrid');
+        const targetMoviesGrid = document.getElementById('moviesGrid');
         const seriesGrid = document.getElementById('seriesGrid');
         const actorsBar = document.getElementById('actorsFilterBar');
 
         if (actorsBar) actorsBar.style.display = 'none';
         if (seriesGrid) seriesGrid.style.display = 'none';
-        if (moviesGrid) moviesGrid.style.display = 'grid';
+        if (targetMoviesGrid) targetMoviesGrid.style.display = 'grid';
 
         if (category === 'all') {
-            if (moviesGrid) moviesGrid.style.display = 'grid';
+            if (targetMoviesGrid) targetMoviesGrid.style.display = 'grid';
             if (seriesGrid) seriesGrid.style.display = 'none';
             displayMovies(movies);
         } else if (category === 'foreign-action') {
             if (actorsBar) actorsBar.style.display = 'flex';
             if (seriesGrid) seriesGrid.style.display = 'grid';
-            if (moviesGrid) moviesGrid.style.display = 'none';
+            if (targetMoviesGrid) targetMoviesGrid.style.display = 'none';
         } else {
-            if (moviesGrid) moviesGrid.style.display = 'grid';
+            if (targetMoviesGrid) targetMoviesGrid.style.display = 'grid';
             if (seriesGrid) seriesGrid.style.display = 'none';
-            const filtered = movies.filter(item => item.category === category);
+            const filtered = movies.filter(item =>
+                item.category === category ||
+                (category === 'foreign-action' && item.category === 'Action')
+            );
             displayMovies(filtered);
         }
     });
@@ -304,20 +337,20 @@ function filterByActor(actorName, btnElement) {
     document.querySelectorAll('#actorsFilterBar .filter-btn').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
-    const actionMovies = movies.filter(item => item.category === 'foreign-action');
-    const moviesGrid = document.getElementById('moviesGrid');
+    const actionMovies = movies.filter(item => item.category === 'foreign-action' || item.category === 'Action');
+    const targetMoviesGrid = document.getElementById('moviesGrid');
     const seriesGrid = document.getElementById('seriesGrid');
 
     if (actorName === 'all') {
         if (seriesGrid) seriesGrid.style.display = 'grid';
-        if (moviesGrid) moviesGrid.style.display = 'none';
+        if (targetMoviesGrid) targetMoviesGrid.style.display = 'none';
     } else {
         if (seriesGrid) seriesGrid.style.display = 'none';
-        if (moviesGrid) moviesGrid.style.display = 'grid';
-        // يمكنك فلترة الممثلين هنا حسب الحقل الخاص بهم لو أردت لاحقاً
+        if (targetMoviesGrid) targetMoviesGrid.style.display = 'grid';
         displayMovies(actionMovies);
     }
 }
+
 // محتوى الصفحات القانونية والمساعدة عند الضغط على روابط الفوتر
 const footerPagesContent = {
     terms: {
